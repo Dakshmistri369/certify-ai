@@ -1,0 +1,121 @@
+{
+  "default_template": "classic_gold.png",
+  "test_key": "test_val_7bc080",
+  "templates": {
+    "classic_gold.png": {
+      "name": "Classic Gold Certificate",
+      "width": 1920,
+      "height": 1080,
+      "clean_dummy_text": true,
+      "fields": {
+        "NAME": {
+          "label": "Student Name",
+          "x": 960,
+          "y": 450,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 52,
+          "color": "#0C0C0C",
+          "alignment": "center"
+        },
+        "COURSE": {
+          "label": "Course Name",
+          "x": 960,
+          "y": 550,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 24,
+          "color": "#9B3922",
+          "alignment": "center",
+          "transform": "uppercase",
+          "max_width": 1400
+        },
+        "GRADE": {
+          "label": "Grade / Distinction",
+          "x": 960,
+          "y": 610,
+          "font_family": "Montserrat-Regular.ttf",
+          "font_size": 18,
+          "color": "#481E14",
+          "alignment": "center",
+          "prefix": "With Distinction \u2014 "
+        },
+        "DATE": {
+          "label": "Issue Date",
+          "x": 455,
+          "y": 770,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 16,
+          "color": "#481E14",
+          "alignment": "center",
+          "prefix": "Date: "
+        },
+        "CERT_ID": {
+          "label": "Certificate ID",
+          "x": 1465,
+          "y": 770,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 16,
+          "color": "#481E14",
+          "alignment": "center",
+          "prefix": "ID: "
+        }
+      }
+    },
+    "modern_blue.png": {
+      "name": "Modern Tech Blue",
+      "width": 1920,
+      "height": 1080,
+      "clean_dummy_text": true,
+      "fields": {
+        "NAME": {
+          "label": "Student Name",
+          "x": 960,
+          "y": 440,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 52,
+          "color": "#0F172A",
+          "alignment": "center"
+        },
+        "COURSE": {
+          "label": "Course Name",
+          "x": 960,
+          "y": 540,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 24,
+          "color": "#2563EB",
+          "alignment": "center",
+          "transform": "uppercase",
+          "max_width": 1400
+        },
+        "GRADE": {
+          "label": "Grade",
+          "x": 960,
+          "y": 600,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 18,
+          "color": "#334155",
+          "alignment": "center"
+        },
+        "DATE": {
+          "label": "Date",
+          "x": 430,
+          "y": 770,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 16,
+          "color": "#475569",
+          "alignment": "center",
+          "prefix": "Date: "
+        },
+        "CERT_ID": {
+          "label": "ID",
+          "x": 1490,
+          "y": 770,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 16,
+          "color": "#475569",
+          "alignment": "center",
+          "prefix": "ID: "
+        }
+      }
+    }
+  }
+}

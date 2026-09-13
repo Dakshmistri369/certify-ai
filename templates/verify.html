@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block title %}Verify Certificate Authenticity - CertifyAI Registry{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-lg-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-9 col-xl-8">
+            
+            <!-- Page Header -->
+            <div class="text-center mb-4 pb-2">
+                <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle bg-primary-subtle text-primary mb-3 shadow-glow" style="width: 68px; height: 68px;">
+                    <i class="fa-solid fa-shield-halved fs-2 text-primary"></i>
+                </div>
+                <h1 class="display-6 fw-bold mb-2 text-white">Certificate Verification Registry</h1>
+                <p class="fs-6 mb-0 text-white" style="opacity: 0.92; letter-spacing: 0.01em;">
+                    Instant cryptographic authenticity validation powered by MongoDB Atlas
+                </p>
+            </div>
+
+            <!-- Search Form Card -->
+            <div class="card card-custom border-subtle shadow-lg p-3 p-sm-4 mb-4 bg-surface-alt">
+                <form action="{{ url_for('verify_page') }}" method="GET" class="d-flex flex-column flex-sm-row gap-2 gap-sm-3 align-items-stretch">
+                    <div class="input-group input-group-lg flex-grow-1">
+                        <span class="input-group-text border-subtle text-warning" style="background-color: #222222;">
+                            <i class="fa-solid fa-barcode fs-5"></i>
+                        </span>
+                        <input type="text" 
+                               name="cert_id" 
+                               id="verifyCertInput" 
+                               class="form-control form-control-lg border-subtle fw-semibold" 
+                               placeholder="Enter Certificate ID or Student Name..." 
+                               value="{{ cert_id or '' }}" 
+                               style="background-color: #161616 !important; color: #ffffff !important; font-size: 1.05rem;"
+                               required 
+                               autofocus>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg rounded-3 px-4 fw-bold text-nowrap d-flex align-items-center justify-content-center gap-2 shadow-sm" style="min-width: 170px; flex-shrink: 0;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span class="text-white">Verify Now</span>
+                    </button>
+                </form>
+            </div>
+
+            {% if cert_id %}
+                {% if certificate %}
+                <!-- Verification SUCCESS Card -->
+                <div class="card card-custom border-success border-2 shadow-lg overflow-hidden position-relative mb-4">
+                    <!-- Top Status Banner -->
+                    <div class="bg-success text-white py-3 px-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-circle-check fs-4 text-white"></i>
+                            <span class="fw-bold fs-6 text-uppercase letter-spacing-1 text-white">Authentic Certificate Verified</span>
+                        </div>
+                        <span class="badge bg-white text-success fw-bold px-3 py-1 rounded-pill fs-xs">
+                            <i class="fa-solid fa-check-double me-1"></i> STATUS: ACTIVE & VERIFIED
+                        </span>
+                    </div>
+
+                    <div class="card-body p-4 p-md-5 bg-card">
+                        <!-- Student & Course Highlight -->
+                        <div class="text-center pb-4 mb-4 border-bottom border-subtle">
+                            <span class="text-white-50 fs-xs text-uppercase letter-spacing-2 d-block mb-1 fw-bold">PROUDLY PRESENTED TO</span>
+                            <h2 class="display-6 fw-bold text-white mb-2">{{ certificate.student_name }}</h2>
+                            <div class="d-inline-block p-2 px-3 rounded-pill bg-primary-subtle text-primary fw-semibold fs-sm border border-primary-subtle">
+                                <i class="fa-solid fa-graduation-cap me-1"></i> {{ certificate.course }}
+                            </div>
+                        </div>
+
+                        <!-- 4-Grid Metadata Cards -->
+                        <div class="row g-3 g-md-4 mb-4">
+                            <div class="col-sm-6">
+                                <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
+                                    <span class="fs-xs text-white-50 text-uppercase d-block mb-1 fw-semibold">
+                                        <i class="fa-solid fa-hashtag text-accent me-1"></i> Certificate ID
+                                    </span>
+                                    <span class="fw-bold font-monospace fs-6 text-white">{{ certificate.cert_id }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
+                                    <span class="fs-xs text-white-50 text-uppercase d-block mb-1 fw-semibold">
+                                        <i class="fa-regular fa-calendar text-info me-1"></i> Issue Date
+                                    </span>
+                                    <span class="fw-bold fs-6 text-white">{{ certificate.date or 'Official' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
+                                    <span class="fs-xs text-white-50 text-uppercase d-block mb-1 fw-semibold">
+                                        <i class="fa-solid fa-medal text-warning me-1"></i> Grade / Performance
+                                    </span>
+                                    <span class="fw-bold fs-6 text-white">{{ certificate.grade or 'Distinction' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
+                                    <span class="fs-xs text-white-50 text-uppercase d-block mb-1 fw-semibold">
+                                        <i class="fa-solid fa-database text-success me-1"></i> Registry Database
+                                    </span>
+                                    <span class="fw-bold fs-6 text-success d-flex align-items-center gap-1">
+                                        <span class="spinner-grow spinner-grow-sm text-success" style="width: 7px; height: 7px;" role="status"></span>
+                                        MongoDB Atlas Verified
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="pt-3 border-top border-subtle d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <span class="text-white-50 fs-xs">
+                                Batch Reference: <code class="text-info fw-semibold">{{ certificate.batch_id }}</code>
+                            </span>
+                            <div class="d-flex gap-2">
+                                <button onclick="window.print()" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                                    <i class="fa-solid fa-print me-1"></i> Print Statement
+                                </button>
+                                {% if certificate.files and certificate.files.get('pdf') %}
+                                <a href="{{ url_for('download_certificate', batch_id=certificate.batch_id, filename=certificate.files.get('pdf'), view='true') }}" target="_blank" class="btn btn-primary btn-sm rounded-pill px-3">
+                                    <i class="fa-solid fa-eye me-1"></i> View Certificate
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <!-- Verification NOT FOUND Card -->
+                <div class="card card-custom border-danger shadow-lg p-4 p-md-5 text-center bg-card mb-4">
+                    <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle bg-danger-subtle text-danger mb-3 mx-auto" style="width: 64px; height: 64px;">
+                        <i class="fa-solid fa-circle-xmark fs-2"></i>
+                    </div>
+                    <h3 class="fw-bold text-danger mb-2">Certificate Not Found</h3>
+                    <p class="text-white fs-6 mb-3">
+                        No active record found matching query <code class="text-warning fw-bold bg-dark px-2 py-1 rounded border border-subtle">{{ cert_id }}</code>.
+                    </p>
+                    <div class="p-3 bg-surface-alt rounded-3 border border-subtle text-start mx-auto mb-4" style="max-width: 520px;">
+                        <span class="fs-xs text-white fw-bold text-uppercase d-block mb-2"><i class="fa-solid fa-lightbulb text-warning me-1"></i> Verification Tips:</span>
+                        <ul class="fs-xs text-white mb-0 ps-3" style="opacity: 0.9;">
+                            <li>Check for typos in the Certificate ID (e.g. <code>CERT-2026-0001</code>).</li>
+                            <li>You can also search by the student's full name.</li>
+                            <li>Ensure the certificate batch has been generated in Step 4.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('verify_page') }}" class="btn btn-outline-light rounded-pill px-4 me-2">
+                            <i class="fa-solid fa-rotate-left me-1"></i> Clear Search
+                        </a>
+                        <a href="{{ url_for('index') }}" class="btn btn-primary rounded-pill px-4">
+                            <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Generate Certificate
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            {% else %}
+            <!-- Default Helper Info Box -->
+            <div class="card card-custom border-subtle shadow-sm p-4 bg-surface-alt text-center">
+                <div class="d-flex flex-column flex-sm-row align-items-center justify-content-center gap-3 fs-sm">
+                    <div class="text-white d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-qrcode text-warning fs-4"></i>
+                        <span class="fw-semibold text-white fs-6">Scan any certificate QR Code or enter the Certificate ID / Student Name above.</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

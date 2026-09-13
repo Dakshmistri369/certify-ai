@@ -1,0 +1,377 @@
+{% extends 'base.html' %}
+
+{% block title %}Live Certificate Inspector & PDF Preview{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <div>
+            <h1 class="display-6 fw-bold mb-1"><i class="fa-solid fa-eye text-primary me-2"></i> Live Certificate Inspector</h1>
+            <p class="text-muted fs-6 mb-0">Test individual student records, preview dynamic coordinates, and download print-ready PDFs instantly.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-danger rounded-pill px-4 fw-semibold shadow-sm" id="downloadInspectorPdfBtn">
+                <i class="fa-solid fa-file-arrow-down me-2"></i> Download This PDF
+            </button>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary rounded-pill px-4 fw-semibold">
+                <i class="fa-solid fa-wand-magic-sparkles me-2"></i> Go to Bulk Generator
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Left: Live Input Form -->
+        <div class="col-lg-4">
+            <div class="card card-custom shadow-sm border-subtle">
+                <div class="card-header bg-transparent py-3">
+                    <h5 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-sliders text-accent me-2"></i> Test Student Record</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Template Preset</label>
+                        <select class="form-select form-select-sm" id="inspectorTemplateSelect">
+                            {% if config and config.templates %}
+                                {% for tpl_key, tpl_val in config.templates.items() %}
+                                    <option value="{{ tpl_key }}" {% if loop.first %}selected{% endif %}>
+                                        {{ tpl_val.name if tpl_val.name else tpl_key }} ({{ tpl_val.width }}x{{ tpl_val.height }})
+                                    </option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="classic_gold.png" selected>Classic Gold Luxury</option>
+                                <option value="modern_blue.png">Modern Tech Blue</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Student Name {NAME}</label>
+                        <input type="text" class="form-control form-control-sm" id="inspName" value="Dr. Alexander Morgan, Ph.D.">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Course Title {COURSE}</label>
+                        <input type="text" class="form-control form-control-sm" id="inspCourse" value="Artificial Intelligence & Neural Architectures">
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Date {DATE}</label>
+                            <input type="text" class="form-control form-control-sm" id="inspDate" value="February 18, 2026">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Grade {GRADE}</label>
+                            <input type="text" class="form-control form-control-sm" id="inspGrade" value="A+ Distinction">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Certificate ID {CERT_ID}</label>
+                        <input type="text" class="form-control form-control-sm" id="inspCertId" value="CERT-2026-9901">
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-primary rounded-pill fw-semibold" id="renderInspectorBtn">
+                            <i class="fa-solid fa-arrows-rotate me-2"></i> Re-Render Preview
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm rounded-pill" id="downloadInspectorPdfBtn2">
+                            <i class="fa-solid fa-file-pdf me-1"></i> Download in PDF Format
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Full Size Preview Canvas Display -->
+        <div class="col-lg-8">
+            <div class="card card-custom shadow-sm border-subtle h-100">
+                <div class="card-header bg-transparent d-flex flex-wrap justify-content-between align-items-center py-3 gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <h5 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-image text-primary me-2"></i> Output Viewport</h5>
+                        <span class="badge bg-success-subtle text-success fs-xs"><i class="fa-solid fa-circle-check me-1"></i> 300 DPI High Resolution</span>
+                    </div>
+                    
+                    <!-- View Mode Toggle Pills -->
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn btn-outline-secondary active" id="viewMode2dBtn">
+                            <i class="fa-regular fa-image me-1"></i> 2D Render
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="viewMode3dBtn">
+                            <i class="fa-solid fa-cube text-warning me-1"></i> 3D Parallax Tilt
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-4 bg-dark-canvas text-center position-relative d-flex align-items-center justify-content-center" style="min-height: 520px;">
+                    
+                    <div class="spinner-border text-primary d-none position-absolute" id="inspectorSpinner" role="status">
+                        <span class="visually-hidden">Rendering...</span>
+                    </div>
+
+                    <!-- 2D Image Viewport -->
+                    <img id="inspectorImage" src="" class="img-fluid rounded shadow-lg border border-subtle d-none" alt="Certificate High-Res Live Render" style="max-height: 65vh;">
+
+                    <!-- Interactive 3D Parallax Card Viewer -->
+                    <div class="cert-3d-wrapper custom-cursor-active d-none w-100" id="cert3dWrapper">
+                        <div class="cert-3d-card" id="certCard">
+                            
+                            <!-- Layer 1: Background Template (Depth 15) -->
+                            <div class="cert-layer layer-bg" data-depth="15">
+                                <img id="cert3dBgImg" src="{{ url_for('static', filename='sample_templates/classic_gold.png') }}" class="cert-bg-img" alt="Certificate Background">
+                            </div>
+
+                            <!-- Layer 2: Certificate Header / Title (Depth 30) -->
+                            <div class="cert-layer layer-title" data-depth="30">
+                                <div class="text-center px-4" style="margin-top: -30%;">
+                                    <h4 class="fw-bold tracking-wide text-uppercase mb-0" id="cert3dTitle" style="color: #FFFFFF; letter-spacing: 3px; font-size: 1.3rem;">CERTIFICATE OF ACHIEVEMENT</h4>
+                                    <span class="fs-xs text-muted" style="letter-spacing: 1.5px;">THIS IS PROUDLY PRESENTED TO</span>
+                                </div>
+                            </div>
+
+                            <!-- Layer 3: Recipient Name (Depth 75 - Floats High) -->
+                            <div class="cert-layer layer-name" data-depth="75">
+                                <div class="text-center px-3" style="margin-top: -6%;">
+                                    <h2 class="fw-bold mb-0" id="cert3dName" style="color: #FFFFFF; font-family: 'Great Vibes', cursive; font-size: 2.8rem; text-shadow: 0 4px 14px rgba(0,0,0,0.85);">Dr. Alexander Morgan, Ph.D.</h2>
+                                </div>
+                            </div>
+
+                            <!-- Layer 4: Course Title (Depth 45) -->
+                            <div class="cert-layer layer-course" data-depth="45">
+                                <div class="text-center px-4" style="margin-top: 14%;">
+                                    <h5 class="fw-bold text-uppercase mb-1" id="cert3dCourse" style="color: #E5E7EB; font-size: 0.95rem; letter-spacing: 1px;">Artificial Intelligence & Neural Architectures</h5>
+                                    <span class="badge bg-dark border border-subtle text-light px-3 py-1 fs-xs" id="cert3dGrade">With Distinction — Grade A+</span>
+                                </div>
+                            </div>
+
+                            <!-- Layer 5: Golden Embossed Seal / Medal (Depth 100 - Floats Highest) -->
+                            <div class="cert-layer layer-seal" data-depth="100">
+                                <div class="cert-seal-badge">
+                                    <i class="fa-solid fa-crown mb-1"></i>
+                                    <span>Official</span>
+                                </div>
+                            </div>
+
+                            <!-- Layer 6: Date & Cert ID Meta (Depth 50) -->
+                            <div class="cert-layer layer-meta" data-depth="50">
+                                <div class="d-flex justify-content-between w-100 px-5" style="margin-top: 36%;">
+                                    <div class="text-center">
+                                        <span class="fs-xxs text-muted d-block">DATE ISSUED</span>
+                                        <span class="fs-xs fw-semibold text-light" id="cert3dDate">February 18, 2026</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <span class="fs-xxs text-muted d-block">VERIFICATION ID</span>
+                                        <code class="fs-xs text-primary fw-bold" id="cert3dId">CERT-2026-9901</code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Holographic Glare & Iridescent Foil Overlays -->
+                            <div class="cert-glare" id="certGlare"></div>
+                            <div class="cert-foil-sheen"></div>
+
+                        </div>
+
+                        <!-- Custom animated calligraphy drawing cursor -->
+                        <div class="draw-cursor" id="drawCursor">✎</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    window.INITIAL_CONFIG = {{ config | tojson }};
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const renderBtn = document.getElementById("renderInspectorBtn");
+        const tplSelect = document.getElementById("inspectorTemplateSelect");
+        const inspImg = document.getElementById("inspectorImage");
+        const spinner = document.getElementById("inspectorSpinner");
+        const downloadPdfBtn = document.getElementById("downloadInspectorPdfBtn");
+        const downloadPdfBtn2 = document.getElementById("downloadInspectorPdfBtn2");
+
+        // 3D Parallax Elements
+        const viewMode2dBtn = document.getElementById("viewMode2dBtn");
+        const viewMode3dBtn = document.getElementById("viewMode3dBtn");
+        const cert3dWrapper = document.getElementById("cert3dWrapper");
+        const card = document.getElementById("certCard");
+        const glare = document.getElementById("certGlare");
+        const cursor = document.getElementById("drawCursor");
+        const layers = document.querySelectorAll("#cert3dWrapper .cert-layer");
+
+        const cert3dBgImg = document.getElementById("cert3dBgImg");
+        const cert3dName = document.getElementById("cert3dName");
+        const cert3dCourse = document.getElementById("cert3dCourse");
+        const cert3dDate = document.getElementById("cert3dDate");
+        const cert3dGrade = document.getElementById("cert3dGrade");
+        const cert3dId = document.getElementById("cert3dId");
+
+        let is3dMode = false;
+
+        function update3dCardContent() {
+            const nameVal = document.getElementById("inspName").value || "Candidate Name";
+            const courseVal = document.getElementById("inspCourse").value || "Course Certification";
+            const dateVal = document.getElementById("inspDate").value || "February 18, 2026";
+            const gradeVal = document.getElementById("inspGrade").value || "Grade A+";
+            const certIdVal = document.getElementById("inspCertId").value || "CERT-2026-0001";
+            const tplVal = tplSelect.value;
+
+            if (cert3dName) cert3dName.textContent = nameVal;
+            if (cert3dCourse) cert3dCourse.textContent = courseVal;
+            if (cert3dDate) cert3dDate.textContent = dateVal;
+            if (cert3dGrade) cert3dGrade.textContent = `With Distinction — ${gradeVal}`;
+            if (cert3dId) cert3dId.textContent = certIdVal;
+            if (cert3dBgImg) cert3dBgImg.src = `/api/template-image/${encodeURIComponent(tplVal)}?t=${Date.now()}`;
+        }
+
+        // View Mode Toggles
+        if (viewMode2dBtn && viewMode3dBtn) {
+            viewMode2dBtn.addEventListener("click", () => {
+                is3dMode = false;
+                viewMode2dBtn.classList.add("active");
+                viewMode3dBtn.classList.remove("active");
+                inspImg.classList.remove("d-none");
+                cert3dWrapper.classList.add("d-none");
+            });
+
+            viewMode3dBtn.addEventListener("click", () => {
+                is3dMode = true;
+                viewMode3dBtn.classList.add("active");
+                viewMode2dBtn.classList.remove("active");
+                inspImg.classList.add("d-none");
+                cert3dWrapper.classList.remove("d-none");
+                update3dCardContent();
+            });
+        }
+
+        // 3D Tilt & Parallax Physics Engine
+        if (cert3dWrapper && card) {
+            cert3dWrapper.addEventListener("mousemove", (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -12;
+                const rotateY = ((x - centerX) / centerX) * 12;
+
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+
+                layers.forEach(layer => {
+                    const depth = parseFloat(layer.getAttribute("data-depth")) || 20;
+                    const moveX = (x - centerX) / (depth * 0.5);
+                    const moveY = (y - centerY) / (depth * 0.5);
+                    layer.style.transform = `translate(${moveX}px, ${moveY}px) translateZ(${depth}px)`;
+                });
+
+                if (glare) {
+                    glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0) 70%)`;
+                }
+
+                if (cursor) {
+                    cursor.style.display = "block";
+                    cursor.style.left = e.clientX + "px";
+                    cursor.style.top = e.clientY + "px";
+                }
+            });
+
+            cert3dWrapper.addEventListener("mouseleave", () => {
+                card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+                layers.forEach(layer => {
+                    layer.style.transform = `translate(0, 0)`;
+                });
+                if (cursor) cursor.style.display = "none";
+            });
+        }
+
+        function getStudentPayload() {
+            return {
+                template_name: tplSelect.value,
+                student_data: {
+                    NAME: document.getElementById("inspName").value,
+                    COURSE: document.getElementById("inspCourse").value,
+                    DATE: document.getElementById("inspDate").value,
+                    GRADE: document.getElementById("inspGrade").value,
+                    CERT_ID: document.getElementById("inspCertId").value
+                }
+            };
+        }
+
+        function fetchLivePreview() {
+            spinner.classList.remove("d-none");
+            update3dCardContent();
+            
+            fetch("/api/preview", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(getStudentPayload())
+            })
+            .then(res => res.json())
+            .then(data => {
+                spinner.classList.add("d-none");
+                if (data.success && data.preview_image) {
+                    inspImg.src = data.preview_image;
+                    if (!is3dMode) {
+                        inspImg.classList.remove("d-none");
+                    }
+                }
+            })
+            .catch(err => {
+                spinner.classList.add("d-none");
+                console.error("Preview error:", err);
+            });
+        }
+
+        function downloadPdf() {
+            const payload = getStudentPayload();
+            if (window.showCertify3DLoader) {
+                window.showCertify3DLoader({ totalRecords: 1 });
+            }
+
+            fetch("/api/generate-single-pdf", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("PDF generation failed");
+                return res.blob();
+            })
+            .then(blob => {
+                const doDownload = () => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    const safeName = (payload.student_data.NAME || "Certificate").replace(/[^a-zA-Z0-9]/g, "_");
+                    a.download = `${safeName}_Certificate.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                };
+                if (window.completeCertify3DLoader) {
+                    window.completeCertify3DLoader(doDownload);
+                } else {
+                    doDownload();
+                }
+            })
+            .catch(err => {
+                if (window.hideCertify3DLoader) window.hideCertify3DLoader();
+                alert("Error downloading PDF: " + err.message);
+            });
+        }
+
+        renderBtn.addEventListener("click", fetchLivePreview);
+        tplSelect.addEventListener("change", fetchLivePreview);
+        if (downloadPdfBtn) downloadPdfBtn.addEventListener("click", downloadPdf);
+        if (downloadPdfBtn2) downloadPdfBtn2.addEventListener("click", downloadPdf);
+
+        // Initial render
+        fetchLivePreview();
+    });
+</script>
+{% endblock %}

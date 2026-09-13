@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Environment variables (KEEP SECRETS OUT OF GIT!)
+.env
+!.env.example
+
+# Flask / App generated files
+generated_certificates/
+uploads/data_files/
+uploads/template_files/
+
+# Logs & temp
+*.log
+*.tmp
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Test artifacts
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Vercel
+.vercel/

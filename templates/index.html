@@ -1,0 +1,972 @@
+{% extends 'base.html' %}
+
+{% block title %}CertifyAI - Certificate Generator Studio{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-5 pb-5">
+    
+    <!-- Hero Header -->
+    <div class="row mb-3">
+        <div class="col-12 text-center">
+            <div class="hero-badge d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2">
+                <i class="fa-solid fa-wand-magic-sparkles text-accent"></i>
+                <span class="fs-sm fw-medium">AI-Powered Certificate Studio</span>
+            </div>
+            <h1 class="hero-title display-6 fw-bold mb-1">
+                Automated <span class="text-gradient">Certificate Generator</span> Studio
+            </h1>
+            <p class="text-muted col-lg-8 mx-auto fs-xs mb-3">
+                Upload student rosters, customize typography, live preview in 2D/3D, and generate 300 DPI print-ready certificates in seconds.
+            </p>
+        </div>
+    </div>
+
+    <!-- 5-STEP WORKFLOW STEPPER -->
+    <div class="stepper-wrapper mb-4">
+        <ul class="stepper-nav" id="mainWorkflowStepper">
+            <li class="stepper-item active" id="stepUploadItem" data-step="1">
+                <div class="stepper-number">1</div>
+                <div class="stepper-text">
+                    <span class="stepper-title">Upload Data</span>
+                    <span class="stepper-subtitle" id="stepperDataSub">Excel, CSV, PDF</span>
+                </div>
+                <i class="fa-solid fa-chevron-right stepper-arrow"></i>
+            </li>
+            <li class="stepper-item" id="stepDesignItem" data-step="2">
+                <div class="stepper-number">2</div>
+                <div class="stepper-text">
+                    <span class="stepper-title">Template & Style</span>
+                    <span class="stepper-subtitle" id="stepperDesignSub">Classic Gold</span>
+                </div>
+                <i class="fa-solid fa-chevron-right stepper-arrow"></i>
+            </li>
+            <li class="stepper-item" id="stepPreviewItem" data-step="3">
+                <div class="stepper-number">3</div>
+                <div class="stepper-text">
+                    <span class="stepper-title">Live Layout</span>
+                    <span class="stepper-subtitle">WYSIWYG Pins</span>
+                </div>
+                <i class="fa-solid fa-chevron-right stepper-arrow"></i>
+            </li>
+            <li class="stepper-item" id="stepGenerateItem" data-step="4">
+                <div class="stepper-number">4</div>
+                <div class="stepper-text">
+                    <span class="stepper-title">Generate</span>
+                    <span class="stepper-subtitle">300 DPI Engine</span>
+                </div>
+                <i class="fa-solid fa-chevron-right stepper-arrow"></i>
+            </li>
+            <li class="stepper-item" id="stepDownloadItem" data-step="5">
+                <div class="stepper-number">5</div>
+                <div class="stepper-text">
+                    <span class="stepper-title">Download</span>
+                    <span class="stepper-subtitle">Combined PDF & ZIP</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ==========================================
+         STEP 1: UPLOAD DATA
+         ========================================== -->
+    <div class="step-section-pane active" id="sectionUpload">
+        <div class="step-section-header d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center gap-3">
+                <span class="step-badge">1</span>
+                <div>
+                    <h4 class="mb-0 fw-bold fs-5 text-light">Upload Candidate Data</h4>
+                    <p class="text-muted fs-xs mb-0">Import student records from spreadsheet, PDF, or direct paste</p>
+                </div>
+            </div>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 fs-xs">
+                <i class="fa-solid fa-file-circle-check me-1"></i> Universal Multi-Format
+            </span>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left: Ingestion Dropzone & Paste -->
+            <div class="col-lg-5">
+                <div class="card card-custom shadow-sm border-subtle h-100">
+                    <div class="card-header bg-transparent py-3">
+                        <h6 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-cloud-arrow-up text-primary me-2"></i>Data Source</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-pills nav-pills-sm mb-3 bg-surface-alt p-1 rounded-pill" id="sourceTabs" role="tablist">
+                            <li class="nav-item flex-fill">
+                                <button class="nav-link active rounded-pill w-100 py-1 fs-xs fw-semibold" id="tabUploadFile" data-bs-toggle="pill" data-bs-target="#panelUploadFile" type="button">
+                                    <i class="fa-solid fa-file-arrow-up me-1"></i> File Upload
+                                </button>
+                            </li>
+                            <li class="nav-item flex-fill">
+                                <button class="nav-link rounded-pill w-100 py-1 fs-xs fw-semibold" id="tabPasteData" data-bs-toggle="pill" data-bs-target="#panelPasteData" type="button">
+                                    <i class="fa-solid fa-paste me-1"></i> Direct Paste
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="sourceTabsContent">
+                            <!-- File Dropzone -->
+                            <div class="tab-pane fade show active" id="panelUploadFile">
+                                <div class="upload-dropzone p-4 text-center border-dashed rounded-3" id="dataDropzone">
+                                    <input type="file" id="dataFileInput" class="d-none" accept=".xlsx,.xls,.xlsm,.csv,.tsv,.txt,.pdf,.json">
+                                    <i class="fa-solid fa-file-import display-6 text-primary mb-2"></i>
+                                    <h6 class="fw-semibold mb-1 fs-sm">Drag & Drop or Browse</h6>
+                                    <p class="text-muted fs-xs mb-3">Excel (.xlsx), CSV, TSV, PDF, or JSON</p>
+                                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="document.getElementById('dataFileInput').click()">
+                                        <i class="fa-solid fa-folder-open me-1"></i> Choose Data File
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Paste Panel -->
+                            <div class="tab-pane fade" id="panelPasteData">
+                                <div class="p-2 bg-surface-alt rounded-3 border border-subtle">
+                                    <textarea id="rawPasteTextarea" class="form-control form-control-sm bg-surface text-light border-subtle mb-2 font-monospace fs-xs" rows="5" placeholder="Paste tab-separated Google Sheets rows, CSV text, or JSON records..."></textarea>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fs-xs text-muted">Auto-detects delimiters</span>
+                                        <button type="button" class="btn btn-primary btn-sm rounded-pill px-3" id="parseRawPasteBtn">
+                                            <i class="fa-solid fa-bolt me-1"></i> Parse & Ingest
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Loaded File Info Banner -->
+                        <div id="dataFileInfo" class="d-none mt-3 p-3 rounded-3 bg-surface-alt border border-subtle">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-2 overflow-hidden">
+                                    <div id="sourceFormatIcon" class="p-2 rounded bg-primary-subtle text-primary">
+                                        <i class="fa-solid fa-table"></i>
+                                    </div>
+                                    <div>
+                                        <div id="dataFileName" class="fw-medium text-truncate fs-sm">students.xlsx</div>
+                                        <div class="d-flex align-items-center gap-2 mt-1">
+                                            <span id="dataFileFormatBadge" class="badge bg-info-subtle text-info fs-xs">EXCEL</span>
+                                            <span id="dataFileMeta" class="text-muted fs-xs">10 records parsed</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-danger border-0 rounded-circle" id="removeDataFileBtn" title="Clear loaded data">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sample Data Triggers -->
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mt-3 pt-2 border-top border-subtle gap-2">
+                            <span class="fs-xs text-muted">Test sample datasets:</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn btn-link btn-sm p-0 fs-xs text-decoration-none text-accent" id="loadSampleDataBtn">
+                                    <i class="fa-solid fa-bolt me-1"></i> 10 Students
+                                </button>
+                                <span class="text-muted fs-xs">|</span>
+                                <button type="button" class="btn btn-link btn-sm p-0 fs-xs text-decoration-none text-warning" id="loadSample50DataBtn">
+                                    <i class="fa-solid fa-users me-1"></i> 50 Students Roster
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Candidate Data Roster Table -->
+            <div class="col-lg-7">
+                <div class="card card-custom shadow-sm border-subtle h-100">
+                    <div class="card-header bg-transparent py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="p-2 rounded-circle bg-primary-subtle text-primary">
+                                <i class="fa-solid fa-database"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0 fw-semibold fs-6">Candidate Roster</h5>
+                                <span class="fs-xs text-muted">Extracted records & fields</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <div class="input-group input-group-sm" style="min-width: 160px;">
+                                <span class="input-group-text bg-surface"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                <input type="text" id="searchRecordsInput" class="form-control" placeholder="Search roster...">
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3" id="openAddRecordModalBtn">
+                                <i class="fa-solid fa-user-plus me-1"></i> Add Record
+                            </button>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-download me-1"></i> Export
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark shadow">
+                                    <li><a class="dropdown-item fs-xs" href="#" id="exportCsvBtn"><i class="fa-solid fa-file-csv me-2 text-info"></i> Export CSV</a></li>
+                                    <li><a class="dropdown-item fs-xs" href="#" id="exportJsonBtn"><i class="fa-solid fa-file-code me-2 text-warning"></i> Export JSON</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-3">
+                        <div class="row g-2 mb-3 align-items-center">
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center gap-2 p-2 bg-surface-alt rounded-3 border border-subtle">
+                                    <span class="fs-xs text-muted">Loaded:</span>
+                                    <strong class="text-primary fs-sm" id="tableRecordCount">0 Students</strong>
+                                    <span class="badge bg-secondary-subtle text-secondary fs-xs ms-auto" id="tableFormatBadge">No Data</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="p-2 bg-surface-alt rounded-3 border border-subtle d-flex align-items-center gap-2 overflow-x-auto flex-nowrap">
+                                    <span class="fs-xs text-muted text-nowrap"><i class="fa-solid fa-tags me-1"></i> Fields:</span>
+                                    <div id="discoveredColumnsContainer" class="d-flex align-items-center gap-1">
+                                        <span class="badge bg-dark border border-subtle text-muted fs-xs">None</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive rounded-3 border border-subtle bg-surface-alt" style="max-height: 320px; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0 fs-xs" id="recordsDataTable">
+                                <thead class="table-light sticky-top">
+                                    <tr id="recordsTableHead">
+                                        <th>#</th>
+                                        <th>Student Name {NAME}</th>
+                                        <th>Course {COURSE}</th>
+                                        <th>Date {DATE}</th>
+                                        <th>Grade {GRADE}</th>
+                                        <th>Cert ID {CERT_ID}</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recordsTableBody">
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4 text-muted">
+                                            <i class="fa-solid fa-inbox display-6 text-secondary d-block mb-2"></i>
+                                            No records loaded. Upload a file, paste data, or load a sample dataset above.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-nav-footer mt-4 d-flex justify-content-between align-items-center">
+            <span class="text-muted fs-xs"><i class="fa-solid fa-shield-halved text-accent me-1"></i> All data parsed securely in memory.</span>
+            <button type="button" class="btn btn-primary rounded-pill px-4 fw-semibold" id="btnNextToDesign">
+                Next: Choose Template <i class="fa-solid fa-arrow-right ms-2"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         STEP 2: DESIGN & TEMPLATES
+         ========================================== -->
+    <div class="step-section-pane" id="sectionDesign">
+        <div class="step-section-header d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center gap-3">
+                <span class="step-badge">2</span>
+                <div>
+                    <h4 class="mb-0 fw-bold fs-5 text-light">Select Template & Palette</h4>
+                    <p class="text-muted fs-xs mb-0">Choose a built-in luxury certificate preset or upload your custom design</p>
+                </div>
+            </div>
+            <span class="badge bg-secondary-subtle text-secondary px-3 py-2 fs-xs">
+                <i class="fa-solid fa-palette me-1"></i> 300 DPI Presets
+            </span>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card card-custom shadow-sm border-subtle h-100">
+                    <div class="card-header bg-transparent py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-layer-group text-primary me-2"></i>Templates</h6>
+                        <span class="badge bg-dark border border-subtle text-muted fs-xs">High Resolution</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="template-gallery-grid mb-3" id="templateGalleryContainer">
+                            <div class="tpl-gallery-card active" data-template="classic_gold.png" id="cardTplClassicGold">
+                                <div class="tpl-thumb-wrapper">
+                                    <img src="{{ url_for('static', filename='sample_templates/classic_gold.png') }}" class="tpl-thumb-img" alt="Classic Gold">
+                                </div>
+                                <div class="tpl-card-name"><i class="fa-solid fa-crown text-warning me-1"></i> Classic Gold</div>
+                            </div>
+                            <div class="tpl-gallery-card" data-template="modern_blue.png" id="cardTplModernBlue">
+                                <div class="tpl-thumb-wrapper">
+                                    <img src="{{ url_for('static', filename='sample_templates/modern_blue.png') }}" class="tpl-thumb-img" alt="Modern Blue">
+                                </div>
+                                <div class="tpl-card-name"><i class="fa-solid fa-shield text-primary me-1"></i> Modern Blue</div>
+                            </div>
+                            <div class="tpl-gallery-card d-flex flex-column align-items-center justify-content-center p-2" onclick="document.getElementById('templateFileInput').click()" style="border-style: dashed; min-height: 110px; cursor: pointer;">
+                                <i class="fa-solid fa-cloud-arrow-up fs-4 text-accent mb-1"></i>
+                                <div class="tpl-card-name text-accent">+ Upload Custom</div>
+                                <input type="file" id="templateFileInput" class="d-none" accept=".png,.jpg,.jpeg,.pdf">
+                            </div>
+                        </div>
+
+                        <div class="p-3 mb-3 rounded-3 bg-surface-alt border border-subtle">
+                            <div class="form-check form-switch d-flex align-items-center justify-content-between ps-0">
+                                <label class="form-check-label fs-xs text-light fw-medium mb-0 pe-2 cursor-pointer" for="cleanDummyTextToggle">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-accent me-1"></i> Auto-Clean Template Placeholders
+                                </label>
+                                <input class="form-check-input ms-0" type="checkbox" role="switch" id="cleanDummyTextToggle" checked style="cursor: pointer;">
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-3 bg-surface-alt border border-subtle">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fs-xs text-muted fw-semibold text-uppercase">Extracted Color Palette</span>
+                                <span id="tplDimMeta" class="fs-xs text-muted">1920x1080</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2" id="paletteSwatchesContainer">
+                                <div class="palette-swatch" style="background-color: #FAF8F2;" title="#FAF8F2"></div>
+                                <div class="palette-swatch" style="background-color: #1E293B;" title="#1E293B"></div>
+                                <div class="palette-swatch" style="background-color: #C5A059;" title="#C5A059"></div>
+                                <div class="palette-swatch" style="background-color: #64748B;" title="#64748B"></div>
+                                <div class="palette-swatch" style="background-color: #0C0C0C;" title="#0C0C0C"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card card-custom shadow-sm border-subtle h-100">
+                    <div class="card-header bg-transparent py-3">
+                        <h6 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-font text-primary me-2"></i>Typography Presets</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
+                                    <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Headline Bold</span>
+                                    <div class="fs-5 fw-bold text-light mt-1">Montserrat</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
+                                    <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Calligraphy Script</span>
+                                    <div class="fs-5 fw-bold text-warning mt-1" style="font-family: cursive;">Great Vibes</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
+                                    <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Classic Serif</span>
+                                    <div class="fs-5 fw-bold text-light mt-1" style="font-family: serif;">Georgia</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
+                                    <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Modern Sans</span>
+                                    <div class="fs-5 fw-bold text-light mt-1">Roboto</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-surface-alt rounded-3 border border-subtle">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-circle-check text-success"></i>
+                                <span class="fs-xs fw-semibold text-light">Automatic Downscaling</span>
+                            </div>
+                            <p class="fs-xs text-muted mb-0">
+                                Long student names automatically scale to fit without overflowing certificate borders.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-nav-footer mt-4 d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" id="btnBackToUpload">
+                <i class="fa-solid fa-arrow-left me-2"></i> Back to Upload
+            </button>
+            <button type="button" class="btn btn-primary rounded-pill px-4 fw-semibold" id="btnNextToPreview">
+                Next: Live Layout Studio <i class="fa-solid fa-arrow-right ms-2"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         STEP 3: LIVE PREVIEW & COORDINATES STUDIO
+         ========================================== -->
+    <div class="step-section-pane" id="sectionPreview">
+        <div class="step-section-header d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center gap-3">
+                <span class="step-badge">3</span>
+                <div>
+                    <h4 class="mb-0 fw-bold fs-5 text-light">Live Coordinate Studio</h4>
+                    <p class="text-muted fs-xs mb-0">Drag and position dynamic placeholders on the canvas with pixel precision</p>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3" id="addNewFieldBtn">
+                    <i class="fa-solid fa-plus me-1"></i> Add Placeholder
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="resetCoordsBtn">
+                    <i class="fa-solid fa-arrow-rotate-left me-1"></i> Reset
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3" id="saveCoordsBtn">
+                    <i class="fa-solid fa-floppy-disk me-1"></i> Save Layout
+                </button>
+            </div>
+        </div>
+
+        <div class="card card-custom shadow-sm border-subtle">
+            <div class="card-body p-0 d-flex flex-column">
+                <div class="canvas-preview-wrapper p-3 bg-dark-canvas text-center position-relative flex-grow-1">
+                    
+                    <!-- Designer Toolbar -->
+                    <div class="designer-toolbar p-2 mb-2 bg-surface-alt rounded-3 border border-subtle d-flex flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="d-flex align-items-center gap-1 flex-wrap">
+                            <span class="fs-xs fw-bold text-light me-1"><i class="fa-solid fa-sliders text-accent me-1"></i> Overlays:</span>
+                            <button type="button" class="btn btn-sm btn-designer-toggle active" id="toggleGridBtn">Grid</button>
+                            <button type="button" class="btn btn-sm btn-designer-toggle active" id="toggleGuidesBtn">Guides</button>
+                            <button type="button" class="btn btn-sm btn-designer-toggle active" id="toggleMarginsBtn">Margins</button>
+                            <button type="button" class="btn btn-sm btn-designer-toggle active" id="togglePinsBtn">Pins</button>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="fs-xs text-muted">Previewing:</span>
+                            <select id="previewStudentSelect" class="form-select form-select-sm bg-surface text-light border-subtle" style="width: auto; min-width: 160px;">
+                                <option value="0">Student #1</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Canvas Container -->
+                    <div class="canvas-container d-inline-block position-relative shadow-lg rounded-2 overflow-hidden" id="canvasContainer">
+                        <img id="previewCanvasImage" src="{{ url_for('static', filename='sample_templates/classic_gold.png') }}" class="img-fluid d-block" alt="Preview">
+                        
+                        <div id="designerGridOverlay" class="designer-grid-overlay"></div>
+                        <div id="designerGuidesOverlay" class="designer-guides-overlay">
+                            <div class="guide-line guide-v-center"></div>
+                            <div class="guide-line guide-h-center"></div>
+                        </div>
+                        <div id="designerMarginsOverlay" class="designer-margins-overlay">
+                            <div class="margin-box">
+                                <span class="margin-badge">Safe Zone</span>
+                            </div>
+                        </div>
+                        <div id="pinsOverlay"></div>
+                    </div>
+                </div>
+
+                <!-- Field Properties Control Bar -->
+                <div class="p-3 border-top border-subtle bg-surface">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between mb-2 gap-2">
+                        <h6 class="fs-xs text-uppercase fw-semibold text-muted mb-0">Select Field to Customize</h6>
+                        <div class="nav nav-pills nav-pills-sm gap-1 overflow-x-auto flex-nowrap" id="fieldTabs" role="tablist">
+                            <button class="nav-link active py-1 px-3 fs-xs" data-field="NAME" type="button">Name</button>
+                            <button class="nav-link py-1 px-3 fs-xs" data-field="COURSE" type="button">Course</button>
+                            <button class="nav-link py-1 px-3 fs-xs" data-field="DATE" type="button">Date</button>
+                            <button class="nav-link py-1 px-3 fs-xs" data-field="GRADE" type="button">Grade</button>
+                            <button class="nav-link py-1 px-3 fs-xs" data-field="CERT_ID" type="button">Cert ID</button>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 pt-2 bg-surface-alt p-3 rounded-3 border border-subtle" id="activeFieldForm">
+                        <div class="col-6 col-md-2">
+                            <label class="form-label fs-xs text-muted mb-1">X Position (px)</label>
+                            <input type="number" class="form-control form-control-sm" id="ctrlX" value="960">
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label fs-xs text-muted mb-1">Y Position (px)</label>
+                            <input type="number" class="form-control form-control-sm" id="ctrlY" value="490">
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label fs-xs text-muted mb-1">Font Size (pt)</label>
+                            <input type="number" class="form-control form-control-sm" id="ctrlFontSize" value="76">
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label fs-xs text-muted mb-1">Color</label>
+                            <input type="color" class="form-control form-control-color form-control-sm w-100" id="ctrlColor" value="#0C0C0C">
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label fs-xs text-muted mb-1">Font Family</label>
+                            <select class="form-select form-select-sm" id="ctrlFontFamily">
+                                <option value="Montserrat-Bold.ttf">Montserrat Bold</option>
+                                <option value="GreatVibes-Regular.ttf">Great Vibes</option>
+                                <option value="Georgia-Regular.ttf">Georgia</option>
+                                <option value="Roboto-Regular.ttf">Roboto</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label fs-xs text-muted mb-1">Alignment</label>
+                            <select class="form-select form-select-sm" id="ctrlAlignment">
+                                <option value="center" selected>Center</option>
+                                <option value="left">Left</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="ctrlPrefix" value="">
+                        <input type="hidden" id="ctrlColorHex" value="#0C0C0C">
+                        <div class="col-12 d-flex justify-content-between align-items-center pt-2 mt-1 border-top border-subtle">
+                            <span class="fs-xs text-muted">Configuring: <strong class="text-accent" id="activeFieldLabel">{NAME}</strong></span>
+                            <button type="button" class="btn btn-outline-danger btn-sm py-0 px-2 fs-xs rounded-pill d-none" id="deleteActiveFieldBtn">
+                                <i class="fa-solid fa-trash me-1"></i> Remove Placeholder
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-nav-footer mt-4 d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" id="btnBackToDesign">
+                <i class="fa-solid fa-arrow-left me-2"></i> Back to Design
+            </button>
+            <button type="button" class="btn btn-primary rounded-pill px-4 fw-semibold" id="btnNextToGenerate">
+                Next: Batch Generation <i class="fa-solid fa-arrow-right ms-2"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         STEP 4: GENERATE (300 DPI ENGINE)
+         ========================================== -->
+    <div class="step-section-pane" id="sectionGenerate">
+        <div class="step-section-header d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center gap-3">
+                <span class="step-badge">4</span>
+                <div>
+                    <h4 class="mb-0 fw-bold fs-5 text-light">300 DPI Batch Generation</h4>
+                    <p class="text-muted fs-xs mb-0">Select your export formats and generate bulk certificates</p>
+                </div>
+            </div>
+            <span class="badge bg-danger-subtle text-danger px-3 py-2 fs-xs">
+                <i class="fa-solid fa-print me-1"></i> Print Ready High-DPI
+            </span>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="card card-custom shadow-sm border-subtle h-100">
+                    <div class="card-header bg-transparent py-3">
+                        <h6 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-sliders text-primary me-2"></i>Export Format</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column gap-2 mb-4">
+                            <label class="p-3 bg-surface-alt rounded-3 border border-subtle d-flex align-items-center gap-3 cursor-pointer">
+                                <input type="radio" name="exportFormat" id="fmtPdf" value="pdf" checked class="form-check-input mt-0">
+                                <div>
+                                    <div class="fw-bold text-light fs-sm">PDF (Vector Quality)</div>
+                                    <span class="fs-xxs text-muted">Printable 300 DPI multi-page PDF bundle</span>
+                                </div>
+                            </label>
+                            <label class="p-3 bg-surface-alt rounded-3 border border-subtle d-flex align-items-center gap-3 cursor-pointer">
+                                <input type="radio" name="exportFormat" id="fmtPng" value="png" class="form-check-input mt-0">
+                                <div>
+                                    <div class="fw-bold text-light fs-sm">PNG (Raster Image)</div>
+                                    <span class="fs-xxs text-muted">High-res PNG images for web and email</span>
+                                </div>
+                            </label>
+                            <label class="p-3 bg-surface-alt rounded-3 border border-subtle d-flex align-items-center gap-3 cursor-pointer">
+                                <input type="radio" name="exportFormat" id="fmtBoth" value="both" class="form-check-input mt-0">
+                                <div>
+                                    <div class="fw-bold text-light fs-sm">Both (PDF + PNG)</div>
+                                    <span class="fs-xxs text-muted">Complete bundle containing both formats</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="pt-3 border-top border-subtle">
+                            <button type="button" class="btn btn-outline-danger btn-generate-3d rounded-pill w-100 fw-semibold" id="directSinglePdfBtn">
+                                <i class="fa-solid fa-file-pdf me-2"></i> Download Instant Single PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card card-custom shadow-sm border-subtle h-100">
+                    <div class="card-header bg-transparent py-3">
+                        <h6 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-gauge-high text-primary me-2"></i>Batch Overview</h6>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between p-4">
+                        <div>
+                            <div class="row g-3 mb-4">
+                                <div class="col-6">
+                                    <div class="p-3 bg-surface-alt rounded-3 border border-subtle text-center">
+                                        <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Candidate Records</span>
+                                        <h3 class="fw-bold text-primary mb-0 mt-1" id="generateRecordsCount">0</h3>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 bg-surface-alt rounded-3 border border-subtle text-center">
+                                        <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Target Resolution</span>
+                                        <h3 class="fw-bold text-danger mb-0 mt-1">300 DPI</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 mb-4 bg-surface-alt rounded-3 border border-subtle">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-bolt text-warning"></i>
+                                    <span class="fw-bold text-light fs-sm">High-Speed Parallel Processing</span>
+                                </div>
+                                <p class="fs-xs text-muted mb-0">
+                                    Certificates are rendered in parallel and packaged into a 1-click Combined Multi-Page PDF and a bulk ZIP archive.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="button" class="btn btn-primary btn-generate-3d btn-lg rounded-pill w-100 fw-bold shadow-glow py-3" id="generateBulkBtn">
+                                <i class="fa-solid fa-wand-magic-sparkles me-2"></i> Generate All Certificates
+                            </button>
+
+                            <div id="generationProgressContainer" class="d-none mt-3 p-3 rounded-3 bg-surface-alt border border-subtle">
+                                <div class="d-flex justify-content-between align-items-center mb-1 fs-xs">
+                                    <span class="fw-semibold text-primary" id="progressStatusText">Rendering certificates...</span>
+                                    <span class="text-muted" id="progressCountText">0%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" id="generationProgressBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-nav-footer mt-4 d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" id="btnBackToPreview">
+                <i class="fa-solid fa-arrow-left me-2"></i> Back to Layout
+            </button>
+            <button type="button" class="btn btn-outline-primary rounded-pill px-4" id="btnNextToDownload">
+                Next: Download Center <i class="fa-solid fa-arrow-right ms-2"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         STEP 5: DOWNLOAD CENTER
+         ========================================== -->
+    <div class="step-section-pane" id="sectionDownload">
+        <div class="step-section-header d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center gap-3">
+                <span class="step-badge">5</span>
+                <div>
+                    <h4 class="mb-0 fw-bold fs-5 text-light">Download Center</h4>
+                    <p class="text-muted fs-xs mb-0">Download your combined multi-page PDF, bulk ZIP archive, or individual certificates</p>
+                </div>
+            </div>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <i class="fa-solid fa-gauge me-1"></i> Admin Analytics
+            </a>
+        </div>
+
+        <!-- Metrics -->
+        <div class="row g-3 mb-4 text-center">
+            <div class="col-4">
+                <div class="p-3 bg-surface-alt rounded-3 border border-subtle">
+                    <span class="fs-xs text-muted d-block text-uppercase fw-semibold">Total Records</span>
+                    <span class="fs-4 fw-bold text-primary" id="sectionTotalCount">0</span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="p-3 bg-surface-alt rounded-3 border border-subtle">
+                    <span class="fs-xs text-muted d-block text-uppercase fw-semibold">Generated</span>
+                    <span class="fs-4 fw-bold text-success" id="sectionSuccessCount">0</span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="p-3 bg-surface-alt rounded-3 border border-subtle">
+                    <span class="fs-xs text-muted d-block text-uppercase fw-semibold">Failed</span>
+                    <span class="fs-4 fw-bold text-danger" id="sectionFailedCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="p-4 bg-surface-alt rounded-4 border border-danger text-center h-100 d-flex flex-column justify-content-between shadow-sm">
+                    <div>
+                        <div class="p-3 bg-danger-subtle text-danger rounded-circle d-inline-block mb-3">
+                            <i class="fa-solid fa-file-pdf display-5"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1 text-light">Combined Multi-Page PDF</h5>
+                        <p class="text-muted fs-xs mb-4">All student certificates combined in a single print-ready PDF document.</p>
+                    </div>
+                    <a href="#" id="sectionCombinedPdfBtn" class="btn btn-danger btn-lg rounded-pill fw-bold shadow-sm w-100" download>
+                        <i class="fa-solid fa-file-arrow-down me-2"></i> Download Combined PDF
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="p-4 bg-surface-alt rounded-4 border border-primary text-center h-100 d-flex flex-column justify-content-between shadow-sm">
+                    <div>
+                        <div class="p-3 bg-primary-subtle text-primary rounded-circle d-inline-block mb-3">
+                            <i class="fa-solid fa-file-zipper display-5"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1 text-light">Complete ZIP Archive</h5>
+                        <p class="text-muted fs-xs mb-4">Every certificate saved as an individual file, archived inside a ZIP.</p>
+                    </div>
+                    <a href="#" id="sectionZipDownloadBtn" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-glow w-100" download>
+                        <i class="fa-solid fa-download me-2"></i> Download Complete ZIP
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Individual File List -->
+        <div class="card card-custom shadow-sm border-subtle">
+            <div class="card-header bg-transparent py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h6 class="fs-xs text-uppercase fw-semibold text-light mb-0"><i class="fa-solid fa-list-check text-accent me-1"></i> Generated Certificates (<span id="sectionTableCountBadge">0</span>)</h6>
+                    <span class="fs-xxs text-muted">Individual student certificate files</span>
+                </div>
+                <button type="button" class="btn btn-outline-warning btn-sm rounded-pill px-3 fs-xs fw-semibold" id="sectionDownloadAllIndividualPdfsBtn">
+                    <i class="fa-solid fa-cloud-arrow-down me-1"></i> Download All Individually
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive bg-surface-alt rounded-3 border-0" style="max-height: 380px; overflow-y: auto;">
+                    <table class="table table-sm table-hover mb-0 fs-xs align-middle">
+                        <thead class="table-light sticky-top">
+                            <tr>
+                                <th class="text-center" style="width: 45px;">#</th>
+                                <th>Student Name</th>
+                                <th>Course</th>
+                                <th>Cert ID</th>
+                                <th class="text-end pe-3">Download</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sectionStudentTableBody">
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    <i class="fa-solid fa-hourglass-half display-6 text-secondary d-block mb-2"></i>
+                                    No certificates generated yet. Return to <strong>Step 4</strong> and click Generate.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-nav-footer mt-4 d-flex justify-content-between align-items-center">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" id="btnStartNewBatch">
+                <i class="fa-solid fa-arrow-rotate-left me-2"></i> Start New Batch
+            </button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary rounded-pill px-4 fw-semibold">
+                <i class="fa-solid fa-gauge me-1"></i> View Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<!-- STICKY ACTION BAR -->
+<div class="sticky-action-bar">
+    <div class="container-fluid px-lg-5 d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="action-status-chip">
+                <span class="status-dot"></span>
+                <span id="statusBarText">Ready — Upload data to begin</span>
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-outline-light btn-sm rounded-pill px-3" id="quickPreviewBtn">
+                <i class="fa-solid fa-eye me-1 text-accent"></i> Live Preview
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3" id="stickySinglePdfBtn">
+                <i class="fa-solid fa-file-arrow-down me-1"></i> Single PDF
+            </button>
+            <button type="button" class="btn btn-primary btn-md rounded-pill px-4 fw-bold shadow-glow" id="stickyGenerateBtn">
+                <i class="fa-solid fa-wand-magic-sparkles me-2"></i> Generate Certificates
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 1: Batch Success Modal -->
+<div class="modal fade" id="batchSuccessModal" tabindex="-1" aria-labelledby="batchSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content card-custom border-subtle shadow-lg">
+            <div class="modal-header border-bottom border-subtle">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="bg-success-subtle text-success p-2 rounded-circle">
+                        <i class="fa-solid fa-check fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold mb-0" id="batchSuccessModalLabel">Certificates Generated Successfully!</h5>
+                        <span class="fs-xs text-muted" id="batchTimeMeta">Processing complete</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-2 mb-4 text-center">
+                    <div class="col-4">
+                        <div class="p-3 bg-surface-alt rounded-3 border border-subtle">
+                            <span class="fs-xs text-muted d-block text-uppercase">Total</span>
+                            <span class="fs-4 fw-bold text-primary" id="modalTotalCount">0</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3 bg-surface-alt rounded-3 border border-subtle">
+                            <span class="fs-xs text-muted d-block text-uppercase">Success</span>
+                            <span class="fs-4 fw-bold text-success" id="modalSuccessCount">0</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-3 bg-surface-alt rounded-3 border border-subtle">
+                            <span class="fs-xs text-muted d-block text-uppercase">Failed</span>
+                            <span class="fs-4 fw-bold text-danger" id="modalFailedCount">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-surface-alt rounded-3 border border-danger text-center h-100 d-flex flex-column justify-content-between shadow-sm">
+                            <div>
+                                <i class="fa-solid fa-file-pdf display-5 text-danger mb-2"></i>
+                                <h6 class="fw-bold mb-1 text-light">Combined PDF</h6>
+                                <p class="text-muted fs-xs mb-3">All certificates in 1 merged document.</p>
+                            </div>
+                            <a href="#" id="modalCombinedPdfBtn" class="btn btn-danger btn-md rounded-pill fw-bold shadow-sm w-100" download>
+                                <i class="fa-solid fa-file-arrow-down me-2"></i> Download Combined PDF
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-surface-alt rounded-3 border border-primary text-center h-100 d-flex flex-column justify-content-between shadow-sm">
+                            <div>
+                                <i class="fa-solid fa-file-zipper display-5 text-primary mb-2"></i>
+                                <h6 class="fw-bold mb-1 text-light">Complete ZIP</h6>
+                                <p class="text-muted fs-xs mb-3">Individual certificates in a ZIP bundle.</p>
+                            </div>
+                            <a href="#" id="modalZipDownloadBtn" class="btn btn-primary btn-md rounded-pill fw-bold shadow-glow w-100" download>
+                                <i class="fa-solid fa-download me-2"></i> Download Complete ZIP
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top border-subtle d-flex justify-content-between">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-sm rounded-pill">
+                    <i class="fa-solid fa-gauge me-1"></i> Open Admin Dashboard
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 2: Live Preview Modal -->
+<div class="modal fade" id="singlePreviewModal" tabindex="-1" aria-labelledby="singlePreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content card-custom border-subtle shadow-lg">
+            <div class="modal-header border-bottom border-subtle d-flex justify-content-between align-items-center">
+                <h5 class="modal-title fw-bold mb-0" id="singlePreviewModalLabel">
+                    <i class="fa-solid fa-eye text-primary me-2"></i> High-Resolution Preview
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center bg-dark-canvas p-4">
+                <div class="spinner-border text-primary my-5 d-none" id="previewModalSpinner" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <img id="previewModalImage" src="" class="img-fluid rounded shadow-lg border border-subtle" alt="Certificate Preview" style="max-height: 70vh;">
+            </div>
+            <div class="modal-footer border-top border-subtle d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3" id="downloadPdfFromPreviewBtn">
+                    <i class="fa-solid fa-file-arrow-down me-1"></i> Download PDF
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4" data-bs-dismiss="modal">Close Preview</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 3: Add / Edit Record Modal -->
+<div class="modal fade" id="recordEditModal" tabindex="-1" aria-labelledby="recordEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card-custom border-subtle shadow-lg">
+            <div class="modal-header border-bottom border-subtle">
+                <h5 class="modal-title fw-bold" id="recordEditModalLabel">Add / Edit Student Record</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editRecordIndex" value="-1">
+                <div class="mb-3">
+                    <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Student Name *</label>
+                    <input type="text" class="form-control form-control-sm" id="editRecordName" placeholder="e.g. John Doe">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Course / Subject *</label>
+                    <input type="text" class="form-control form-control-sm" id="editRecordCourse" placeholder="e.g. Full-Stack Web Development">
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Date</label>
+                        <input type="text" class="form-control form-control-sm" id="editRecordDate" placeholder="e.g. February 20, 2026">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Grade</label>
+                        <input type="text" class="form-control form-control-sm" id="editRecordGrade" placeholder="e.g. A+ Distinction">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Certificate ID</label>
+                    <input type="text" class="form-control form-control-sm" id="editRecordCertId" placeholder="e.g. CERT-2026-001">
+                </div>
+            </div>
+            <div class="modal-footer border-top border-subtle">
+                <button type="button" class="btn btn-secondary btn-sm rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm rounded-pill px-4" id="saveRecordBtn">Save Student</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 4: Add Placeholder Field Modal -->
+<div class="modal fade" id="newFieldModal" tabindex="-1" aria-labelledby="newFieldModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card-custom border-subtle shadow-lg">
+            <div class="modal-header border-bottom border-subtle">
+                <h5 class="modal-title fw-bold" id="newFieldModalLabel">Add Dynamic Certificate Placeholder</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Placeholder Key *</label>
+                    <input type="text" class="form-control form-control-sm" id="newFieldKeyInput" placeholder="e.g. INSTITUTE, INSTRUCTOR, QR_CODE">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Field Type</label>
+                    <select class="form-select form-select-sm" id="newFieldTypeSelect">
+                        <option value="text" selected>Text Placeholder</option>
+                        <option value="qr">Verification QR Code</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fs-xs fw-semibold text-muted text-uppercase">Sample Value</label>
+                    <input type="text" class="form-control form-control-sm" id="newFieldSampleVal" placeholder="e.g. Global Tech University">
+                </div>
+            </div>
+            <div class="modal-footer border-top border-subtle">
+                <button type="button" class="btn btn-secondary btn-sm rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success btn-sm rounded-pill px-4" id="confirmNewFieldBtn">Create Placeholder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    window.INITIAL_CONFIG = {{ config | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard & PDF Generation History{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-5">
+    
+    <!-- Top Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <div>
+            <h1 class="display-6 fw-bold mb-1"><i class="fa-solid fa-gauge-high text-primary me-2"></i> Admin Analytics & PDF Archives</h1>
+            <p class="text-muted fs-6 mb-0">Monitor batch performance, download combined multi-page PDFs, and manage student certificates.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3" id="clearHistoryBtn">
+                <i class="fa-solid fa-trash-can me-1"></i> Clear Logs
+            </button>
+            <a href="{{ url_for('index') }}" class="btn btn-primary rounded-pill px-4 fw-semibold">
+                <i class="fa-solid fa-plus me-1"></i> New Batch
+            </a>
+        </div>
+    </div>
+
+    <!-- Analytics Metrics Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card card-custom border-subtle shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fs-xs text-muted text-uppercase fw-semibold d-block">Total Generated</span>
+                        <h3 class="fw-bold mb-0 text-primary mt-1">{{ total_generated }}</h3>
+                    </div>
+                    <div class="p-3 bg-primary-subtle text-primary rounded-circle">
+                        <i class="fa-solid fa-certificate fs-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card card-custom border-subtle shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fs-xs text-muted text-uppercase fw-semibold d-block">Total Batches</span>
+                        <h3 class="fw-bold mb-0 text-info mt-1">{{ total_batches }}</h3>
+                    </div>
+                    <div class="p-3 bg-info-subtle text-info rounded-circle">
+                        <i class="fa-solid fa-layer-group fs-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card card-custom border-subtle shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fs-xs text-muted text-uppercase fw-semibold d-block">Database Engine</span>
+                        <h5 class="fw-bold mb-0 text-success mt-1 d-flex align-items-center gap-1">
+                            <span class="spinner-grow spinner-grow-sm text-success" style="width: 8px; height: 8px;" role="status"></span>
+                            MongoDB Atlas
+                        </h5>
+                        <span class="fs-xs text-muted">certifyai DB</span>
+                    </div>
+                    <div class="p-3 bg-success-subtle text-success rounded-circle">
+                        <i class="fa-solid fa-database fs-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card card-custom border-subtle shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fs-xs text-muted text-uppercase fw-semibold d-block">Latest Run</span>
+                        <h6 class="fw-bold mb-0 text-truncate mt-2" title="{{ latest_batch.timestamp if latest_batch else 'None' }}">
+                            {{ latest_batch.timestamp.split(' ')[0] if latest_batch else 'None' }}
+                        </h6>
+                    </div>
+                    <div class="p-3 bg-warning-subtle text-warning rounded-circle">
+                        <i class="fa-regular fa-clock fs-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batches Archive Table -->
+    <div class="card card-custom border-subtle shadow-sm mb-4">
+        <div class="card-header bg-transparent py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-clock-rotate-left text-accent me-2"></i> Batch Generation & Download Archives</h5>
+            <span class="badge bg-secondary-subtle text-secondary fs-xs">{{ batches|length }} Batches Recorded</span>
+        </div>
+        <div class="card-body p-0">
+            {% if batches %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 fs-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Batch ID</th>
+                            <th>Timestamp</th>
+                            <th>Template</th>
+                            <th>Records</th>
+                            <th>Status</th>
+                            <th>Render Time</th>
+                            <th>Archive Size</th>
+                            <th class="text-end">Downloads</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in batches %}
+                        <tr>
+                            <td>
+                                <code class="text-primary fw-semibold">{{ b.batch_id }}</code>
+                            </td>
+                            <td>{{ b.timestamp }}</td>
+                            <td>
+                                <span class="badge bg-dark-subtle text-dark border border-subtle">{{ b.template_name }}</span>
+                            </td>
+                            <td>
+                                <span class="fw-semibold text-success">{{ b.success_count }}</span> / {{ b.total_records }}
+                            </td>
+                            <td>
+                                {% if b.failed_count == 0 %}
+                                    <span class="badge bg-success-subtle text-success"><i class="fa-solid fa-check me-1"></i> Completed</span>
+                                {% else %}
+                                    <span class="badge bg-warning-subtle text-warning"><i class="fa-solid fa-triangle-exclamation me-1"></i> Partial</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ b.elapsed_seconds }}s</td>
+                            <td>{{ b.zip_size_kb }} KB</td>
+                            <td class="text-end">
+                                <div class="d-inline-flex gap-1">
+                                    <a href="{{ url_for('download_combined_pdf', batch_id=b.batch_id) }}" class="btn btn-sm btn-outline-danger rounded-pill px-3" title="Download all certificates as a single multi-page PDF">
+                                        <i class="fa-solid fa-file-pdf me-1"></i> Merged PDF
+                                    </a>
+                                    <a href="{{ url_for('download_zip', batch_id=b.batch_id) }}" class="btn btn-sm btn-primary rounded-pill px-3" title="Download ZIP with individual files">
+                                        <i class="fa-solid fa-download me-1"></i> ZIP
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5 text-muted">
+                <i class="fa-solid fa-box-open display-4 text-secondary mb-3 d-block"></i>
+                <h6>No generation batches found.</h6>
+                <p class="fs-xs mb-3">Upload a roster file and generate your first batch of certificates!</p>
+                <a href="{{ url_for('index') }}" class="btn btn-sm btn-primary rounded-pill px-3">Go to Generator</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Individual Certificate File Roster -->
+    <div class="card card-custom border-subtle shadow-sm">
+        <div class="card-header bg-transparent py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div>
+                <h5 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-file-pdf text-danger me-2"></i> Individual Certificate Documents & Verification</h5>
+                <span class="fs-xs text-muted">Real-time MongoDB Atlas certificate registry with instant verification links</span>
+            </div>
+            <div style="min-width: 280px;">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-surface"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" id="searchCertInput" class="form-control" placeholder="Search student name or cert ID...">
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            {% if certificates %}
+            <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+                <table class="table table-hover align-middle mb-0 fs-sm" id="certTable">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th>Student / Certificate</th>
+                            <th>Cert ID</th>
+                            <th>Course</th>
+                            <th>Batch ID</th>
+                            <th>Date</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cert in certificates %}
+                        <tr class="cert-row">
+                            <td class="cert-name fw-semibold">
+                                <div class="d-flex align-items-center gap-2">
+                                    {% if cert.ext == 'PDF' %}
+                                        <i class="fa-regular fa-file-pdf text-danger fs-5"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-file-image text-primary fs-5"></i>
+                                    {% endif %}
+                                    <div>
+                                        <span>{{ cert.student_name or cert.filename }}</span>
+                                        {% if cert.grade %}
+                                        <span class="badge bg-warning-subtle text-warning ms-1 fs-xs">{{ cert.grade }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {% if cert.cert_id %}
+                                <code class="text-accent fw-bold">{{ cert.cert_id }}</code>
+                                {% else %}
+                                <span class="text-muted fs-xs">—</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="fs-xs text-truncate d-inline-block" style="max-width: 180px;" title="{{ cert.course or 'Official Course' }}">{{ cert.course or 'Official Certificate' }}</span>
+                            </td>
+                            <td><span class="fs-xs text-muted">{{ cert.batch_id }}</span></td>
+                            <td><span class="fs-xs text-muted">{{ cert.date or cert.created_at }}</span></td>
+                            <td class="text-end">
+                                <div class="d-inline-flex gap-1">
+                                    {% if cert.cert_id %}
+                                    <a href="{{ url_for('verify_page', cert_id=cert.cert_id) }}" class="btn btn-sm btn-outline-success rounded-pill px-2" title="Verify authenticity in MongoDB">
+                                        <i class="fa-solid fa-shield-halved me-1"></i> Verify
+                                    </a>
+                                    {% endif %}
+                                    {% if cert.filename and cert.batch_id %}
+                                    <a href="{{ url_for('download_certificate', batch_id=cert.batch_id, filename=cert.filename) }}?view=true" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-2" title="View in browser">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                    <a href="{{ url_for('download_certificate', batch_id=cert.batch_id, filename=cert.filename) }}" class="btn btn-sm btn-outline-primary rounded-pill px-2" title="Download file">
+                                        <i class="fa-solid fa-download"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-4 text-muted fs-sm">
+                No certificate files generated yet.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Search filter for individual certificates
+        const searchInput = document.getElementById("searchCertInput");
+        if (searchInput) {
+            searchInput.addEventListener("input", function() {
+                const query = this.value.toLowerCase().trim();
+                const rows = document.querySelectorAll(".cert-row");
+                rows.forEach(row => {
+                    const text = row.querySelector(".cert-name").textContent.toLowerCase();
+                    row.style.display = text.includes(query) ? "" : "none";
+                });
+            });
+        }
+
+        // Clear history handler
+        const clearBtn = document.getElementById("clearHistoryBtn");
+        if (clearBtn) {
+            clearBtn.addEventListener("click", function() {
+                if (confirm("Are you sure you want to clear the generation history logs? (Generated files on disk will be preserved)")) {
+                    fetch("/api/clear-history", { method: "POST" })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
