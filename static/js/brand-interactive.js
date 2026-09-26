@@ -310,6 +310,8 @@
                             <div class="card-3d-sheen"></div>
                             <div class="card-3d-glare" id="intro3dGlare"></div>
                         </div>
+                        <!-- 3D Realistic Grounding Shadow -->
+                        <div class="intro-3d-card-shadow" id="intro3dCardShadow"></div>
                     </div>
 
                     <!-- Grand Brand Heading with Senior Designer Typography -->
@@ -341,12 +343,15 @@
                             <span>💎 Diamond</span>
                         </button>
                         <div class="vr my-1 opacity-25 d-none d-sm-block" style="height: 18px;"></div>
+                        <button type="button" class="intro-anim-btn intro-zoom-toggle-btn" id="introZoomToggleBtn" onclick="window.toggleIntroZoom()" title="Toggle Close-Up Zoom (Z)">
+                            <i class="fa-solid fa-magnifying-glass-plus text-warning"></i> <span class="d-none d-sm-inline">Zoom</span>
+                        </button>
                         <button type="button" class="intro-anim-btn intro-orbit-toggle-btn" id="introOrbitToggleBtn" onclick="window.toggleIntroOrbit()" title="Pause/Play 3D Orbit Carousel">
                             <i class="fa-solid fa-pause"></i> <span class="d-none d-sm-inline">Orbit</span>
                         </button>
                     </div>
                     <div class="intro-orbit-hint d-none d-md-block">
-                        <span><i class="fa-solid fa-sparkles text-warning me-1"></i> Touch or click any revolving template to apply &bull; Press <strong>ESC</strong> to close</span>
+                        <span><i class="fa-solid fa-sparkles text-warning me-1"></i> Touch or click any revolving template to apply &bull; <strong>Zoom</strong> or double-click to inspect &bull; <strong>ESC</strong> to close</span>
                     </div>
                 </div>
             </div>
@@ -459,6 +464,27 @@
         }
     };
 
+    let _isZoomedInspect = false;
+    window.toggleIntroZoom = function () {
+        const wrapper = document.getElementById("intro3dCardWrapper");
+        const btn = document.getElementById("introZoomToggleBtn");
+        if (!wrapper) return;
+
+        _isZoomedInspect = !_isZoomedInspect;
+        if (_isZoomedInspect) {
+            wrapper.classList.add("is-zoomed-inspect");
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-magnifying-glass-minus text-warning"></i> <span class="d-none d-sm-inline">Zoom Out</span>';
+        } else {
+            wrapper.classList.remove("is-zoomed-inspect");
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus text-warning"></i> <span class="d-none d-sm-inline">Zoom</span>';
+        }
+
+        if (_introDismissTimer) {
+            clearTimeout(_introDismissTimer);
+            _introDismissTimer = null;
+        }
+    };
+
     window.cycleIntroFontOrName = function () {
         const presetKeys = Object.keys(FONT_PRESETS);
         const nextIdx = (presetKeys.indexOf(_currentPreset) + 1) % presetKeys.length;
@@ -529,6 +555,14 @@
             if (card) card.style.transform = "";
         });
 
+        // Double-click central certificate to toggle close-up inspection zoom
+        if (card) {
+            card.addEventListener("dblclick", (e) => {
+                e.stopPropagation();
+                window.toggleIntroZoom();
+            });
+        }
+
         const dismiss = () => {
             if (splashEl.classList.contains("splash-dismissed")) return;
             splashEl.classList.add("splash-dismissed");
@@ -552,6 +586,7 @@
 
         window.addEventListener("keydown", (e) => {
             if (e.key === "Escape") dismiss();
+            if (e.key === "z" || e.key === "Z") window.toggleIntroZoom();
         });
 
         // Auto-dismiss logic:
