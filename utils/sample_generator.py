@@ -211,12 +211,43 @@ def generate_sample_datasets():
 
 
 def initialize_all_sample_assets():
-    """Ensure all sample templates, fonts, and datasets exist."""
+    """Ensure all sample templates, fonts, and datasets exist without redundant regeneration."""
     download_free_fonts()
     os.makedirs(TEMPLATES_DIR, exist_ok=True)
-    create_classic_gold_template(os.path.join(TEMPLATES_DIR, "classic_gold.png"))
-    create_modern_blue_template(os.path.join(TEMPLATES_DIR, "modern_blue.png"))
-    generate_sample_datasets()
+    os.makedirs(SAMPLE_DATA_DIR, exist_ok=True)
+    
+    classic_path = os.path.join(TEMPLATES_DIR, "classic_gold.png")
+    if not os.path.exists(classic_path):
+        create_classic_gold_template(classic_path)
+        
+    modern_path = os.path.join(TEMPLATES_DIR, "modern_blue.png")
+    if not os.path.exists(modern_path):
+        create_modern_blue_template(modern_path)
+
+    # Initialize all 6 sustainability certificate templates
+    sust_templates = [
+        "sustainability_midnight.png",
+        "sustainability_cyan.png",
+        "sustainability_slate.png",
+        "sustainability_modern.png",
+        "sustainability_academic.png",
+        "sustainability_lace.png"
+    ]
+    if any(not os.path.exists(os.path.join(TEMPLATES_DIR, t)) for t in sust_templates):
+        try:
+            from utils.sustainability_generator import generate_all_sustainability_templates
+            generate_all_sustainability_templates()
+        except Exception as e:
+            print(f"Sustainability generator note: {e}")
+
+    sample_files = [
+        os.path.join(SAMPLE_DATA_DIR, "sample_students.xlsx"),
+        os.path.join(SAMPLE_DATA_DIR, "sample_students.csv"),
+        os.path.join(SAMPLE_DATA_DIR, "sample_students.pdf"),
+        os.path.join(SAMPLE_DATA_DIR, "sample_50_students.xlsx")
+    ]
+    if any(not os.path.exists(p) for p in sample_files):
+        generate_sample_datasets()
 
 
 if __name__ == "__main__":

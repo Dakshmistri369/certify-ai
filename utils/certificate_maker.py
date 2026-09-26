@@ -326,13 +326,20 @@ def generate_preview_base64(
     clean_dummy_text: bool = True
 ) -> str:
     """Generate in-memory preview image as base64 JPEG data URI."""
-    data = student_data or {
+    is_sust = "sustainability" in os.path.basename(template_path).lower()
+    data = student_data or ({
+        "NAME": "JOHN DOE",
+        "COURSE": "For attending Green Design & Sustainability",
+        "DATE": "09/25/2026",
+        "GRADE": "This certifies that the participant attended the 2-day 'Green Design and Sustainability' seminar on April 12, 2026, recognizing commitment to sustainability and responsible design practices.",
+        "CERT_ID": "CERT-2026-0001"
+    } if is_sust else {
         "NAME": "Alexander Morgan",
         "COURSE": "Artificial Intelligence & Neural Architectures",
         "DATE": "February 18, 2026",
         "GRADE": "Grade A+",
         "CERT_ID": "CERT-2026-9901"
-    }
+    })
     tpl_img = open_template_image(template_path)
     rendered = render_certificate(tpl_img, data, config_fields, clean_dummy_text=clean_dummy_text)
 

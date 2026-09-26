@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: certify-ai
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --timeout 120 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: certifyai
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PORT
+        value: 10000
+    # Optional persistent disk for paid Render plans ($7+/mo). Disabled for 100% free tier compatibility.
+    # disk:
+    #   name: certifyai-storage
+    #   mountPath: /var/data
+    #   sizeGB: 1

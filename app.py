@@ -45,6 +45,17 @@ from utils.db import (
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "certify-ai-secret-2026")
 app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024  # 64 MB
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+@app.after_request
+def add_no_cache_headers(response):
+    """Disable caching in development so UI, CSS, and JS updates render live immediately."""
+    if app.debug:
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return response
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_FILE = os.path.join(BASE_DIR, "config.json")
@@ -72,13 +83,91 @@ def inject_db_status():
 
 
 DEFAULT_CONFIG = {
-    "default_template": "classic_gold.png",
+    "default_template": "sustainability_midnight.png",
     "templates": {
+        "sustainability_midnight.png": {
+            "name": "Midnight Luxury Sustainability",
+            "width": 1920,
+            "height": 1080,
+            "clean_dummy_text": False,
+            "fields": {
+                "NAME": {"label": "Student Name", "x": 960, "y": 445, "font_family": "Montserrat-Bold.ttf", "font_size": 54, "color": "#FFFFFF", "alignment": "center"},
+                "COURSE": {"label": "Course / Recognition", "x": 960, "y": 535, "font_family": "Montserrat-Bold.ttf", "font_size": 24, "color": "#E5C07B", "alignment": "center", "max_width": 1400},
+                "GRADE": {"label": "Description / Grade", "x": 960, "y": 620, "font_family": "Georgia-Regular.ttf", "font_size": 17, "color": "#CBD5E1", "alignment": "center", "max_width": 1250},
+                "DATE": {"label": "Issue Date", "x": 420, "y": 785, "font_family": "Roboto-Regular.ttf", "font_size": 18, "color": "#94A3B8", "alignment": "center"},
+                "CERT_ID": {"label": "Certificate ID", "x": 960, "y": 995, "font_family": "Roboto-Regular.ttf", "font_size": 14, "color": "#94A3B8", "alignment": "center", "prefix": "ID: "}
+            }
+        },
+        "sustainability_cyan.png": {
+            "name": "Cyan Guilloche Sustainability",
+            "width": 1920,
+            "height": 1080,
+            "clean_dummy_text": False,
+            "fields": {
+                "NAME": {"label": "Student Name", "x": 960, "y": 445, "font_family": "Georgia-Bold.ttf", "font_size": 52, "color": "#0A2540", "alignment": "center"},
+                "COURSE": {"label": "Course / Recognition", "x": 960, "y": 535, "font_family": "Montserrat-Bold.ttf", "font_size": 24, "color": "#1D70B8", "alignment": "center", "max_width": 1400},
+                "GRADE": {"label": "Description / Grade", "x": 960, "y": 620, "font_family": "Georgia-Regular.ttf", "font_size": 17, "color": "#475569", "alignment": "center", "max_width": 1250},
+                "DATE": {"label": "Issue Date", "x": 420, "y": 785, "font_family": "Roboto-Regular.ttf", "font_size": 18, "color": "#475569", "alignment": "center"},
+                "CERT_ID": {"label": "Certificate ID", "x": 960, "y": 995, "font_family": "Roboto-Regular.ttf", "font_size": 14, "color": "#475569", "alignment": "center", "prefix": "ID: "}
+            }
+        },
+        "sustainability_slate.png": {
+            "name": "Vintage Slate Filigree Sustainability",
+            "width": 1920,
+            "height": 1080,
+            "clean_dummy_text": False,
+            "fields": {
+                "NAME": {"label": "Student Name", "x": 960, "y": 445, "font_family": "Montserrat-Bold.ttf", "font_size": 54, "color": "#FFFFFF", "alignment": "center"},
+                "COURSE": {"label": "Course / Recognition", "x": 960, "y": 535, "font_family": "Montserrat-Bold.ttf", "font_size": 24, "color": "#E5C07B", "alignment": "center", "max_width": 1400},
+                "GRADE": {"label": "Description / Grade", "x": 960, "y": 620, "font_family": "Georgia-Regular.ttf", "font_size": 17, "color": "#E2E8F0", "alignment": "center", "max_width": 1250},
+                "DATE": {"label": "Issue Date", "x": 420, "y": 785, "font_family": "Roboto-Regular.ttf", "font_size": 18, "color": "#A0AEC0", "alignment": "center"},
+                "CERT_ID": {"label": "Certificate ID", "x": 960, "y": 995, "font_family": "Roboto-Regular.ttf", "font_size": 14, "color": "#A0AEC0", "alignment": "center", "prefix": "ID: "}
+            }
+        },
+        "sustainability_modern.png": {
+            "name": "Modern Geometric Sustainability",
+            "width": 1920,
+            "height": 1080,
+            "clean_dummy_text": False,
+            "fields": {
+                "NAME": {"label": "Student Name", "x": 960, "y": 445, "font_family": "Montserrat-Bold.ttf", "font_size": 54, "color": "#1E293B", "alignment": "center"},
+                "COURSE": {"label": "Course / Recognition", "x": 960, "y": 535, "font_family": "Montserrat-Bold.ttf", "font_size": 24, "color": "#0284C7", "alignment": "center", "max_width": 1400},
+                "GRADE": {"label": "Description / Grade", "x": 960, "y": 620, "font_family": "Georgia-Regular.ttf", "font_size": 17, "color": "#64748B", "alignment": "center", "max_width": 1250},
+                "DATE": {"label": "Issue Date", "x": 420, "y": 785, "font_family": "Roboto-Regular.ttf", "font_size": 18, "color": "#64748B", "alignment": "center"},
+                "CERT_ID": {"label": "Certificate ID", "x": 960, "y": 995, "font_family": "Roboto-Regular.ttf", "font_size": 14, "color": "#64748B", "alignment": "center", "prefix": "ID: "}
+            }
+        },
+        "sustainability_academic.png": {
+            "name": "Royal Academic Navy Sustainability",
+            "width": 1920,
+            "height": 1080,
+            "clean_dummy_text": False,
+            "fields": {
+                "NAME": {"label": "Student Name", "x": 960, "y": 445, "font_family": "Times-Bold.ttf", "font_size": 54, "color": "#1E293B", "alignment": "center"},
+                "COURSE": {"label": "Course / Recognition", "x": 960, "y": 535, "font_family": "Montserrat-Bold.ttf", "font_size": 24, "color": "#1B3B6F", "alignment": "center", "max_width": 1400},
+                "GRADE": {"label": "Description / Grade", "x": 960, "y": 620, "font_family": "Georgia-Regular.ttf", "font_size": 17, "color": "#475569", "alignment": "center", "max_width": 1250},
+                "DATE": {"label": "Issue Date", "x": 420, "y": 785, "font_family": "Roboto-Regular.ttf", "font_size": 18, "color": "#475569", "alignment": "center"},
+                "CERT_ID": {"label": "Certificate ID", "x": 960, "y": 995, "font_family": "Roboto-Regular.ttf", "font_size": 14, "color": "#475569", "alignment": "center", "prefix": "ID: "}
+            }
+        },
+        "sustainability_lace.png": {
+            "name": "Traditional Security Lace Sustainability",
+            "width": 1920,
+            "height": 1080,
+            "clean_dummy_text": False,
+            "fields": {
+                "NAME": {"label": "Student Name", "x": 960, "y": 445, "font_family": "Montserrat-Bold.ttf", "font_size": 54, "color": "#1E293B", "alignment": "center"},
+                "COURSE": {"label": "Course / Recognition", "x": 960, "y": 535, "font_family": "Montserrat-Bold.ttf", "font_size": 24, "color": "#2563EB", "alignment": "center", "max_width": 1400},
+                "GRADE": {"label": "Description / Grade", "x": 960, "y": 620, "font_family": "Georgia-Regular.ttf", "font_size": 17, "color": "#64748B", "alignment": "center", "max_width": 1250},
+                "DATE": {"label": "Issue Date", "x": 420, "y": 785, "font_family": "Roboto-Regular.ttf", "font_size": 18, "color": "#64748B", "alignment": "center"},
+                "CERT_ID": {"label": "Certificate ID", "x": 960, "y": 995, "font_family": "Roboto-Regular.ttf", "font_size": 14, "color": "#64748B", "alignment": "center", "prefix": "ID: "}
+            }
+        },
         "classic_gold.png": {
             "name": "Classic Gold Certificate",
             "width": 1920,
             "height": 1080,
-            "clean_dummy_text": True,
+            "clean_dummy_text": False,
             "fields": {
                 "NAME": {"label": "Student Name", "x": 960, "y": 450, "font_family": "Montserrat-Bold.ttf", "font_size": 52, "color": "#0C0C0C", "alignment": "center"},
                 "COURSE": {"label": "Course Name", "x": 960, "y": 550, "font_family": "Montserrat-Bold.ttf", "font_size": 24, "color": "#9B3922", "alignment": "center", "transform": "uppercase", "max_width": 1400},
@@ -91,7 +180,7 @@ DEFAULT_CONFIG = {
             "name": "Modern Tech Blue",
             "width": 1920,
             "height": 1080,
-            "clean_dummy_text": True,
+            "clean_dummy_text": False,
             "fields": {
                 "NAME": {"label": "Student Name", "x": 960, "y": 440, "font_family": "Montserrat-Bold.ttf", "font_size": 52, "color": "#0F172A", "alignment": "center"},
                 "COURSE": {"label": "Course Name", "x": 960, "y": 540, "font_family": "Montserrat-Bold.ttf", "font_size": 24, "color": "#2563EB", "alignment": "center", "transform": "uppercase", "max_width": 1400},
@@ -105,16 +194,18 @@ DEFAULT_CONFIG = {
 
 
 def load_config() -> Dict[str, Any]:
-    """Load configuration from MongoDB with local config.json fallback and default merging."""
-    cfg = load_config_db()
-    if not cfg:
-        if os.path.exists(CONFIG_FILE):
-            try:
-                with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
-                    cfg = json.load(f)
-            except Exception:
-                cfg = None
+    """Load configuration instantly from local config.json with DB and default merging."""
+    cfg = None
+    if os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+                cfg = json.load(f)
+        except Exception:
+            cfg = None
     
+    if not cfg:
+        cfg = load_config_db()
+
     if not cfg:
         cfg = DEFAULT_CONFIG.copy()
     else:
@@ -123,13 +214,13 @@ def load_config() -> Dict[str, Any]:
         if "default_template" not in cfg:
             cfg["default_template"] = DEFAULT_CONFIG["default_template"]
     
-    # Sync both local file and MongoDB
-    try:
-        with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
-            json.dump(cfg, f, indent=2)
-    except Exception:
-        pass
-    save_config_db(cfg)
+    # Save local file if missing
+    if not os.path.exists(CONFIG_FILE):
+        try:
+            with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
+                json.dump(cfg, f, indent=2)
+        except Exception:
+            pass
     return cfg
 
 
@@ -447,7 +538,7 @@ def api_upload_template():
             "name": file.filename,
             "width": w,
             "height": h,
-            "clean_dummy_text": True,
+            "clean_dummy_text": False,
             "fields": {
                 "NAME": {"label": "Student Name", "x": cx, "y": round(h * 0.42), "font_family": "Montserrat-Bold.ttf", "font_size": max(48, round(h * 0.055)), "color": primary_dark, "alignment": "center"},
                 "COURSE": {"label": "Course Name", "x": cx, "y": round(h * 0.505), "font_family": "Montserrat-Bold.ttf", "font_size": max(22, round(h * 0.022)), "color": accent, "alignment": "center", "transform": "uppercase", "max_width": round(w * 0.70)},
@@ -685,7 +776,62 @@ def api_clear_history():
 with app.app_context():
     initialize_all_sample_assets()
 
+
+def get_watched_files() -> list:
+    """Collect all project files to trigger instant auto-reload in terminal on change."""
+    watched = set()
+    watch_dirs = [
+        os.path.join(BASE_DIR, "templates"),
+        os.path.join(BASE_DIR, "static", "css"),
+        os.path.join(BASE_DIR, "static", "js"),
+        os.path.join(BASE_DIR, "utils"),
+    ]
+    watch_exts = {".py", ".html", ".css", ".js", ".json", ".env"}
+    for w_dir in watch_dirs:
+        if os.path.exists(w_dir):
+            for root, _, files in os.walk(w_dir):
+                for f in files:
+                    ext = os.path.splitext(f)[1].lower()
+                    if ext in watch_exts:
+                        watched.add(os.path.abspath(os.path.join(root, f)))
+    for f in ["config.json", ".env", "app.py"]:
+        p = os.path.abspath(os.path.join(BASE_DIR, f))
+        if os.path.exists(p):
+            watched.add(p)
+    return sorted(list(watched))
+
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    print(f"Starting CertifyAI on http://127.0.0.1:{port}")
-    app.run(host='0.0.0.0', port=port, debug=True)
+    extra_files = get_watched_files()
+    exclude_patterns = [
+        "*/generated_certificates/*",
+        "*/uploads/*",
+        "*__pycache__*",
+        "*.git*",
+        "*.zip",
+        "*.pdf"
+    ]
+
+    is_reloader_child = os.environ.get("WERKZEUG_RUN_MAIN") == "true"
+    if not is_reloader_child:
+        print("=" * 64)
+        print(" [CertifyAI] LIVE AUTO-RELOAD TERMINAL MONITOR ACTIVATED")
+        print(f" Watching {len(extra_files)} project files across:")
+        print("   - templates/ (*.html)")
+        print("   - static/css/ (*.css)")
+        print("   - static/js/ (*.js)")
+        print("   - utils/ & root (*.py, .env, config.json)")
+        print(" Terminal will automatically reload live when any file is saved!")
+        print("=" * 64)
+    else:
+        print(f" [CertifyAI] Server active on http://127.0.0.1:{port} (Live Auto-Reload ON)")
+
+    app.run(
+        host='0.0.0.0',
+        port=port,
+        debug=True,
+        extra_files=extra_files,
+        exclude_patterns=exclude_patterns,
+        use_reloader=True
+    )

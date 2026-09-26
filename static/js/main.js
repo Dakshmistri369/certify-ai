@@ -7,13 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- Application State ---
     const state = {
         config: window.INITIAL_CONFIG || {},
-        currentTemplate: "classic_gold.png",
+        currentTemplate: (window.INITIAL_CONFIG && window.INITIAL_CONFIG.default_template) || "sustainability_midnight.png",
         templateWidth: 1920,
         templateHeight: 1080,
         activeField: "NAME",
         fields: {},
         studentRecords: [],
-        cleanDummyText: true,
+        cleanDummyText: false,
         currentStep: 1
     };
 
@@ -118,6 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (previewCanvasImage) {
             previewCanvasImage.src = `/api/template-image/${encodeURIComponent(templateName)}?t=${Date.now()}`;
         }
+        if (cleanDummyTextToggle) {
+            state.cleanDummyText = tplCfg.clean_dummy_text || false;
+            cleanDummyTextToggle.checked = state.cleanDummyText;
+        }
         renderFieldTabs();
         selectActiveField(Object.keys(state.fields)[0] || "NAME");
         renderCanvasPins();
@@ -167,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Columns found
         if (discoveredColumnsContainer && data.all_fields) {
-            discoveredColumnsContainer.innerHTML = data.all_fields.map(f => `<span class="badge bg-dark border border-subtle text-light fs-xs">{${f}}</span>`).join("");
+            discoveredColumnsContainer.innerHTML = data.all_fields.map(f => `<span class="badge bg-surface-alt border border-subtle text-main fs-xs">{${f}}</span>`).join("");
         }
 
         // Student preview dropdown
@@ -193,10 +197,10 @@ document.addEventListener("DOMContentLoaded", function () {
         recordsTableBody.innerHTML = filtered.map((r, i) => `
             <tr>
                 <td class="text-muted">${i + 1}</td>
-                <td class="fw-bold text-light">${r.NAME || ""}</td>
-                <td><span class="badge bg-dark-subtle text-light border border-subtle">${r.COURSE || ""}</span></td>
+                <td class="fw-bold text-main">${r.NAME || ""}</td>
+                <td><span class="badge bg-primary-subtle text-primary border border-primary-subtle">${r.COURSE || ""}</span></td>
                 <td><span class="text-muted">${r.DATE || ""}</span></td>
-                <td><span class="badge bg-secondary-subtle text-light">${r.GRADE || ""}</span></td>
+                <td><span class="badge bg-secondary-subtle text-main border border-subtle">${r.GRADE || ""}</span></td>
                 <td><code class="text-primary">${r.CERT_ID || ""}</code></td>
                 <td class="text-end">
                     <button type="button" class="btn btn-sm btn-link text-info p-0 me-2" onclick="window.editStudentRecord(${i})" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -670,7 +674,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             return `
                                 <tr>
                                     <td class="text-center text-muted">${i + 1}</td>
-                                    <td class="fw-bold text-light">${r.student_name}</td>
+                                    <td class="fw-bold text-main">${r.student_name}</td>
                                     <td>${r.course || ""}</td>
                                     <td><code>${r.cert_id || ""}</code></td>
                                     <td class="text-end pe-3">
@@ -740,7 +744,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 clean_dummy_text: state.cleanDummyText
             })
         })
-        .then(res => res.blob())
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}: Failed to generate certificate PDF`);
+            return res.blob();
+        })
         .then(blob => {
             const doDownload = () => {
                 const a = document.createElement("a");
@@ -806,5 +813,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Initial Load
-    loadTemplateConfig("classic_gold.png");
+    const initialTpl = state.config.default_template || "sustainability_midnight.png";
+    loadTemplateConfig(initialTpl);
 });

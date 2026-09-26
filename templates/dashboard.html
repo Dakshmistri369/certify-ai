@@ -56,13 +56,21 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <span class="fs-xs text-muted text-uppercase fw-semibold d-block">Database Engine</span>
+                        {% if db_status and db_status.connected %}
                         <h5 class="fw-bold mb-0 text-success mt-1 d-flex align-items-center gap-1">
                             <span class="spinner-grow spinner-grow-sm text-success" style="width: 8px; height: 8px;" role="status"></span>
                             MongoDB Atlas
                         </h5>
-                        <span class="fs-xs text-muted">certifyai DB</span>
+                        <span class="fs-xs text-muted">{{ db_status.database }} (Live Cluster)</span>
+                        {% else %}
+                        <h5 class="fw-bold mb-0 text-info mt-1 d-flex align-items-center gap-1">
+                            <i class="fa-solid fa-hard-drive text-info fs-6"></i>
+                            Local Sync
+                        </h5>
+                        <span class="fs-xs text-muted">High-Speed Fallback</span>
+                        {% endif %}
                     </div>
-                    <div class="p-3 bg-success-subtle text-success rounded-circle">
+                    <div class="p-3 {% if db_status and db_status.connected %}bg-success-subtle text-success{% else %}bg-info-subtle text-info{% endif %} rounded-circle">
                         <i class="fa-solid fa-database fs-4"></i>
                     </div>
                 </div>

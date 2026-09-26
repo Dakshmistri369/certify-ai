@@ -1,12 +1,347 @@
 {
-  "default_template": "classic_gold.png",
-  "test_key": "test_val_7bc080",
+  "default_template": "sustainability_midnight.png",
   "templates": {
+    "sustainability_midnight.png": {
+      "name": "Midnight Luxury Sustainability",
+      "width": 1920,
+      "height": 1080,
+      "clean_dummy_text": false,
+      "fields": {
+        "NAME": {
+          "label": "Student Name",
+          "x": 960,
+          "y": 445,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 54,
+          "color": "#FFFFFF",
+          "alignment": "center"
+        },
+        "COURSE": {
+          "label": "Course / Recognition",
+          "x": 960,
+          "y": 535,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 24,
+          "color": "#E5C07B",
+          "alignment": "center",
+          "max_width": 1400
+        },
+        "GRADE": {
+          "label": "Description / Grade",
+          "x": 960,
+          "y": 620,
+          "font_family": "Georgia-Regular.ttf",
+          "font_size": 17,
+          "color": "#CBD5E1",
+          "alignment": "center",
+          "max_width": 1250
+        },
+        "DATE": {
+          "label": "Issue Date",
+          "x": 420,
+          "y": 785,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 18,
+          "color": "#94A3B8",
+          "alignment": "center"
+        },
+        "CERT_ID": {
+          "label": "Certificate ID",
+          "x": 960,
+          "y": 995,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 14,
+          "color": "#94A3B8",
+          "alignment": "center",
+          "prefix": "ID: "
+        }
+      }
+    },
+    "sustainability_cyan.png": {
+      "name": "Cyan Guilloche Sustainability",
+      "width": 1920,
+      "height": 1080,
+      "clean_dummy_text": false,
+      "fields": {
+        "NAME": {
+          "label": "Student Name",
+          "x": 960,
+          "y": 445,
+          "font_family": "Georgia-Bold.ttf",
+          "font_size": 52,
+          "color": "#0A2540",
+          "alignment": "center"
+        },
+        "COURSE": {
+          "label": "Course / Recognition",
+          "x": 960,
+          "y": 535,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 24,
+          "color": "#1D70B8",
+          "alignment": "center",
+          "max_width": 1400
+        },
+        "GRADE": {
+          "label": "Description / Grade",
+          "x": 960,
+          "y": 620,
+          "font_family": "Georgia-Regular.ttf",
+          "font_size": 17,
+          "color": "#475569",
+          "alignment": "center",
+          "max_width": 1250
+        },
+        "DATE": {
+          "label": "Issue Date",
+          "x": 420,
+          "y": 785,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 18,
+          "color": "#475569",
+          "alignment": "center"
+        },
+        "CERT_ID": {
+          "label": "Certificate ID",
+          "x": 960,
+          "y": 995,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 14,
+          "color": "#475569",
+          "alignment": "center",
+          "prefix": "ID: "
+        }
+      }
+    },
+    "sustainability_slate.png": {
+      "name": "Vintage Slate Filigree Sustainability",
+      "width": 1920,
+      "height": 1080,
+      "clean_dummy_text": false,
+      "fields": {
+        "NAME": {
+          "label": "Student Name",
+          "x": 960,
+          "y": 445,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 54,
+          "color": "#FFFFFF",
+          "alignment": "center"
+        },
+        "COURSE": {
+          "label": "Course / Recognition",
+          "x": 960,
+          "y": 535,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 24,
+          "color": "#E5C07B",
+          "alignment": "center",
+          "max_width": 1400
+        },
+        "GRADE": {
+          "label": "Description / Grade",
+          "x": 960,
+          "y": 620,
+          "font_family": "Georgia-Regular.ttf",
+          "font_size": 17,
+          "color": "#E2E8F0",
+          "alignment": "center",
+          "max_width": 1250
+        },
+        "DATE": {
+          "label": "Issue Date",
+          "x": 420,
+          "y": 785,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 18,
+          "color": "#A0AEC0",
+          "alignment": "center"
+        },
+        "CERT_ID": {
+          "label": "Certificate ID",
+          "x": 960,
+          "y": 995,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 14,
+          "color": "#A0AEC0",
+          "alignment": "center",
+          "prefix": "ID: "
+        }
+      }
+    },
+    "sustainability_modern.png": {
+      "name": "Modern Geometric Sustainability",
+      "width": 1920,
+      "height": 1080,
+      "clean_dummy_text": false,
+      "fields": {
+        "NAME": {
+          "label": "Student Name",
+          "x": 960,
+          "y": 445,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 54,
+          "color": "#1E293B",
+          "alignment": "center"
+        },
+        "COURSE": {
+          "label": "Course / Recognition",
+          "x": 960,
+          "y": 535,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 24,
+          "color": "#0284C7",
+          "alignment": "center",
+          "max_width": 1400
+        },
+        "GRADE": {
+          "label": "Description / Grade",
+          "x": 960,
+          "y": 620,
+          "font_family": "Georgia-Regular.ttf",
+          "font_size": 17,
+          "color": "#64748B",
+          "alignment": "center",
+          "max_width": 1250
+        },
+        "DATE": {
+          "label": "Issue Date",
+          "x": 420,
+          "y": 785,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 18,
+          "color": "#64748B",
+          "alignment": "center"
+        },
+        "CERT_ID": {
+          "label": "Certificate ID",
+          "x": 960,
+          "y": 995,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 14,
+          "color": "#64748B",
+          "alignment": "center",
+          "prefix": "ID: "
+        }
+      }
+    },
+    "sustainability_academic.png": {
+      "name": "Royal Academic Navy Sustainability",
+      "width": 1920,
+      "height": 1080,
+      "clean_dummy_text": false,
+      "fields": {
+        "NAME": {
+          "label": "Student Name",
+          "x": 960,
+          "y": 445,
+          "font_family": "Times-Bold.ttf",
+          "font_size": 54,
+          "color": "#1E293B",
+          "alignment": "center"
+        },
+        "COURSE": {
+          "label": "Course / Recognition",
+          "x": 960,
+          "y": 535,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 24,
+          "color": "#1B3B6F",
+          "alignment": "center",
+          "max_width": 1400
+        },
+        "GRADE": {
+          "label": "Description / Grade",
+          "x": 960,
+          "y": 620,
+          "font_family": "Georgia-Regular.ttf",
+          "font_size": 17,
+          "color": "#475569",
+          "alignment": "center",
+          "max_width": 1250
+        },
+        "DATE": {
+          "label": "Issue Date",
+          "x": 420,
+          "y": 785,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 18,
+          "color": "#475569",
+          "alignment": "center"
+        },
+        "CERT_ID": {
+          "label": "Certificate ID",
+          "x": 960,
+          "y": 995,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 14,
+          "color": "#475569",
+          "alignment": "center",
+          "prefix": "ID: "
+        }
+      }
+    },
+    "sustainability_lace.png": {
+      "name": "Traditional Security Lace Sustainability",
+      "width": 1920,
+      "height": 1080,
+      "clean_dummy_text": false,
+      "fields": {
+        "NAME": {
+          "label": "Student Name",
+          "x": 960,
+          "y": 445,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 54,
+          "color": "#1E293B",
+          "alignment": "center"
+        },
+        "COURSE": {
+          "label": "Course / Recognition",
+          "x": 960,
+          "y": 535,
+          "font_family": "Montserrat-Bold.ttf",
+          "font_size": 24,
+          "color": "#2563EB",
+          "alignment": "center",
+          "max_width": 1400
+        },
+        "GRADE": {
+          "label": "Description / Grade",
+          "x": 960,
+          "y": 620,
+          "font_family": "Georgia-Regular.ttf",
+          "font_size": 17,
+          "color": "#64748B",
+          "alignment": "center",
+          "max_width": 1250
+        },
+        "DATE": {
+          "label": "Issue Date",
+          "x": 420,
+          "y": 785,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 18,
+          "color": "#64748B",
+          "alignment": "center"
+        },
+        "CERT_ID": {
+          "label": "Certificate ID",
+          "x": 960,
+          "y": 995,
+          "font_family": "Roboto-Regular.ttf",
+          "font_size": 14,
+          "color": "#64748B",
+          "alignment": "center",
+          "prefix": "ID: "
+        }
+      }
+    },
     "classic_gold.png": {
       "name": "Classic Gold Certificate",
       "width": 1920,
       "height": 1080,
-      "clean_dummy_text": true,
+      "clean_dummy_text": false,
       "fields": {
         "NAME": {
           "label": "Student Name",
@@ -64,7 +399,7 @@
       "name": "Modern Tech Blue",
       "width": 1920,
       "height": 1080,
-      "clean_dummy_text": true,
+      "clean_dummy_text": false,
       "fields": {
         "NAME": {
           "label": "Student Name",

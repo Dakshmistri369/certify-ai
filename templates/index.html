@@ -7,16 +7,12 @@
     
     <!-- Hero Header -->
     <div class="row mb-3">
-        <div class="col-12 text-center">
-            <div class="hero-badge d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2">
-                <i class="fa-solid fa-wand-magic-sparkles text-accent"></i>
-                <span class="fs-sm fw-medium">AI-Powered Certificate Studio</span>
-            </div>
+        <div class="col-12 text-center pt-2">
             <h1 class="hero-title display-6 fw-bold mb-1">
                 Automated <span class="text-gradient">Certificate Generator</span> Studio
             </h1>
             <p class="text-muted col-lg-8 mx-auto fs-xs mb-3">
-                Upload student rosters, customize typography, live preview in 2D/3D, and generate 300 DPI print-ready certificates in seconds.
+                Upload student rosters, customize typography, live preview in 2D/3D, and generate high-resolution print-ready certificates in seconds.
             </p>
         </div>
     </div>
@@ -36,7 +32,7 @@
                 <div class="stepper-number">2</div>
                 <div class="stepper-text">
                     <span class="stepper-title">Template & Style</span>
-                    <span class="stepper-subtitle" id="stepperDesignSub">Classic Gold</span>
+                    <span class="stepper-subtitle" id="stepperDesignSub">Midnight Luxury</span>
                 </div>
                 <i class="fa-solid fa-chevron-right stepper-arrow"></i>
             </li>
@@ -74,7 +70,7 @@
             <div class="d-flex align-items-center gap-3">
                 <span class="step-badge">1</span>
                 <div>
-                    <h4 class="mb-0 fw-bold fs-5 text-light">Upload Candidate Data</h4>
+                    <h4 class="mb-0 fw-bold fs-5 text-main">Upload Candidate Data</h4>
                     <p class="text-muted fs-xs mb-0">Import student records from spreadsheet, PDF, or direct paste</p>
                 </div>
             </div>
@@ -121,7 +117,7 @@
                             <!-- Paste Panel -->
                             <div class="tab-pane fade" id="panelPasteData">
                                 <div class="p-2 bg-surface-alt rounded-3 border border-subtle">
-                                    <textarea id="rawPasteTextarea" class="form-control form-control-sm bg-surface text-light border-subtle mb-2 font-monospace fs-xs" rows="5" placeholder="Paste tab-separated Google Sheets rows, CSV text, or JSON records..."></textarea>
+                                    <textarea id="rawPasteTextarea" class="form-control form-control-sm bg-surface text-main border-subtle mb-2 font-monospace fs-xs" rows="5" placeholder="Paste tab-separated Google Sheets rows, CSV text, or JSON records..."></textarea>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="fs-xs text-muted">Auto-detects delimiters</span>
                                         <button type="button" class="btn btn-primary btn-sm rounded-pill px-3" id="parseRawPasteBtn">
@@ -196,7 +192,7 @@
                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown">
                                     <i class="fa-solid fa-download me-1"></i> Export
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark shadow">
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
                                     <li><a class="dropdown-item fs-xs" href="#" id="exportCsvBtn"><i class="fa-solid fa-file-csv me-2 text-info"></i> Export CSV</a></li>
                                     <li><a class="dropdown-item fs-xs" href="#" id="exportJsonBtn"><i class="fa-solid fa-file-code me-2 text-warning"></i> Export JSON</a></li>
                                 </ul>
@@ -239,7 +235,7 @@
                                 <tbody id="recordsTableBody">
                                     <tr>
                                         <td colspan="7" class="text-center py-4 text-muted">
-                                            <i class="fa-solid fa-inbox display-6 text-secondary d-block mb-2"></i>
+                                             <i class="fa-solid fa-inbox display-6 text-secondary d-block mb-2"></i>
                                             No records loaded. Upload a file, paste data, or load a sample dataset above.
                                         </td>
                                     </tr>
@@ -268,7 +264,7 @@
             <div class="d-flex align-items-center gap-3">
                 <span class="step-badge">2</span>
                 <div>
-                    <h4 class="mb-0 fw-bold fs-5 text-light">Select Template & Palette</h4>
+                    <h4 class="mb-0 fw-bold fs-5 text-main">Select Template & Palette</h4>
                     <p class="text-muted fs-xs mb-0">Choose a built-in luxury certificate preset or upload your custom design</p>
                 </div>
             </div>
@@ -286,7 +282,43 @@
                     </div>
                     <div class="card-body">
                         <div class="template-gallery-grid mb-3" id="templateGalleryContainer">
-                            <div class="tpl-gallery-card active" data-template="classic_gold.png" id="cardTplClassicGold">
+                            <div class="tpl-gallery-card active" data-template="sustainability_midnight.png" id="cardTplSustMidnight">
+                                <div class="tpl-thumb-wrapper">
+                                    <img src="{{ url_for('static', filename='sample_templates/sustainability_midnight.png') }}" class="tpl-thumb-img" alt="Midnight Luxury">
+                                </div>
+                                <div class="tpl-card-name"><i class="fa-solid fa-moon text-info me-1"></i> Midnight Luxury</div>
+                            </div>
+                            <div class="tpl-gallery-card" data-template="sustainability_cyan.png" id="cardTplSustCyan">
+                                <div class="tpl-thumb-wrapper">
+                                    <img src="{{ url_for('static', filename='sample_templates/sustainability_cyan.png') }}" class="tpl-thumb-img" alt="Cyan Guilloche">
+                                </div>
+                                <div class="tpl-card-name"><i class="fa-solid fa-certificate text-primary me-1"></i> Cyan Guilloche</div>
+                            </div>
+                            <div class="tpl-gallery-card" data-template="sustainability_slate.png" id="cardTplSustSlate">
+                                <div class="tpl-thumb-wrapper">
+                                    <img src="{{ url_for('static', filename='sample_templates/sustainability_slate.png') }}" class="tpl-thumb-img" alt="Vintage Slate">
+                                </div>
+                                <div class="tpl-card-name"><i class="fa-solid fa-gem text-warning me-1"></i> Vintage Slate</div>
+                            </div>
+                            <div class="tpl-gallery-card" data-template="sustainability_modern.png" id="cardTplSustModern">
+                                <div class="tpl-thumb-wrapper">
+                                    <img src="{{ url_for('static', filename='sample_templates/sustainability_modern.png') }}" class="tpl-thumb-img" alt="Modern Geometric">
+                                </div>
+                                <div class="tpl-card-name"><i class="fa-solid fa-shapes text-info me-1"></i> Modern Geo</div>
+                            </div>
+                            <div class="tpl-gallery-card" data-template="sustainability_academic.png" id="cardTplSustAcademic">
+                                <div class="tpl-thumb-wrapper">
+                                    <img src="{{ url_for('static', filename='sample_templates/sustainability_academic.png') }}" class="tpl-thumb-img" alt="Royal Academic">
+                                </div>
+                                <div class="tpl-card-name"><i class="fa-solid fa-graduation-cap text-primary me-1"></i> Royal Academic</div>
+                            </div>
+                            <div class="tpl-gallery-card" data-template="sustainability_lace.png" id="cardTplSustLace">
+                                <div class="tpl-thumb-wrapper">
+                                    <img src="{{ url_for('static', filename='sample_templates/sustainability_lace.png') }}" class="tpl-thumb-img" alt="Security Lace">
+                                </div>
+                                <div class="tpl-card-name"><i class="fa-solid fa-shield-halved text-success me-1"></i> Security Lace</div>
+                            </div>
+                            <div class="tpl-gallery-card" data-template="classic_gold.png" id="cardTplClassicGold">
                                 <div class="tpl-thumb-wrapper">
                                     <img src="{{ url_for('static', filename='sample_templates/classic_gold.png') }}" class="tpl-thumb-img" alt="Classic Gold">
                                 </div>
@@ -298,7 +330,7 @@
                                 </div>
                                 <div class="tpl-card-name"><i class="fa-solid fa-shield text-primary me-1"></i> Modern Blue</div>
                             </div>
-                            <div class="tpl-gallery-card d-flex flex-column align-items-center justify-content-center p-2" onclick="document.getElementById('templateFileInput').click()" style="border-style: dashed; min-height: 110px; cursor: pointer;">
+                            <div class="tpl-gallery-card d-flex flex-column align-items-center justify-content-center p-2" onclick="document.getElementById('templateFileInput').click()" style="border-style: dashed; min-height: 95px; cursor: pointer;">
                                 <i class="fa-solid fa-cloud-arrow-up fs-4 text-accent mb-1"></i>
                                 <div class="tpl-card-name text-accent">+ Upload Custom</div>
                                 <input type="file" id="templateFileInput" class="d-none" accept=".png,.jpg,.jpeg,.pdf">
@@ -307,7 +339,7 @@
 
                         <div class="p-3 mb-3 rounded-3 bg-surface-alt border border-subtle">
                             <div class="form-check form-switch d-flex align-items-center justify-content-between ps-0">
-                                <label class="form-check-label fs-xs text-light fw-medium mb-0 pe-2 cursor-pointer" for="cleanDummyTextToggle">
+                                <label class="form-check-label fs-xs text-main fw-medium mb-0 pe-2 cursor-pointer" for="cleanDummyTextToggle">
                                     <i class="fa-solid fa-wand-magic-sparkles text-accent me-1"></i> Auto-Clean Template Placeholders
                                 </label>
                                 <input class="form-check-input ms-0" type="checkbox" role="switch" id="cleanDummyTextToggle" checked style="cursor: pointer;">
@@ -341,7 +373,7 @@
                             <div class="col-6">
                                 <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
                                     <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Headline Bold</span>
-                                    <div class="fs-5 fw-bold text-light mt-1">Montserrat</div>
+                                    <div class="fs-5 fw-bold text-main mt-1">Montserrat</div>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -353,13 +385,13 @@
                             <div class="col-6">
                                 <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
                                     <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Classic Serif</span>
-                                    <div class="fs-5 fw-bold text-light mt-1" style="font-family: serif;">Georgia</div>
+                                    <div class="fs-5 fw-bold text-main mt-1" style="font-family: serif;">Georgia</div>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="p-3 bg-surface-alt rounded-3 border border-subtle h-100">
                                     <span class="fs-xxs text-muted text-uppercase fw-bold d-block">Modern Sans</span>
-                                    <div class="fs-5 fw-bold text-light mt-1">Roboto</div>
+                                    <div class="fs-5 fw-bold text-main mt-1">Roboto</div>
                                 </div>
                             </div>
                         </div>
@@ -367,7 +399,7 @@
                         <div class="p-3 bg-surface-alt rounded-3 border border-subtle">
                             <div class="d-flex align-items-center gap-2 mb-2">
                                 <i class="fa-solid fa-circle-check text-success"></i>
-                                <span class="fs-xs fw-semibold text-light">Automatic Downscaling</span>
+                                <span class="fs-xs fw-semibold text-main">Automatic Downscaling</span>
                             </div>
                             <p class="fs-xs text-muted mb-0">
                                 Long student names automatically scale to fit without overflowing certificate borders.
@@ -397,7 +429,7 @@
             <div class="d-flex align-items-center gap-3">
                 <span class="step-badge">3</span>
                 <div>
-                    <h4 class="mb-0 fw-bold fs-5 text-light">Live Coordinate Studio</h4>
+                    <h4 class="mb-0 fw-bold fs-5 text-main">Live Coordinate Studio</h4>
                     <p class="text-muted fs-xs mb-0">Drag and position dynamic placeholders on the canvas with pixel precision</p>
                 </div>
             </div>
@@ -421,7 +453,7 @@
                     <!-- Designer Toolbar -->
                     <div class="designer-toolbar p-2 mb-2 bg-surface-alt rounded-3 border border-subtle d-flex flex-wrap align-items-center justify-content-between gap-2">
                         <div class="d-flex align-items-center gap-1 flex-wrap">
-                            <span class="fs-xs fw-bold text-light me-1"><i class="fa-solid fa-sliders text-accent me-1"></i> Overlays:</span>
+                            <span class="fs-xs fw-bold text-main me-1"><i class="fa-solid fa-sliders text-accent me-1"></i> Overlays:</span>
                             <button type="button" class="btn btn-sm btn-designer-toggle active" id="toggleGridBtn">Grid</button>
                             <button type="button" class="btn btn-sm btn-designer-toggle active" id="toggleGuidesBtn">Guides</button>
                             <button type="button" class="btn btn-sm btn-designer-toggle active" id="toggleMarginsBtn">Margins</button>
@@ -429,7 +461,7 @@
                         </div>
                         <div class="d-flex align-items-center gap-2">
                             <span class="fs-xs text-muted">Previewing:</span>
-                            <select id="previewStudentSelect" class="form-select form-select-sm bg-surface text-light border-subtle" style="width: auto; min-width: 160px;">
+                            <select id="previewStudentSelect" class="form-select form-select-sm bg-surface text-main border-subtle" style="width: auto; min-width: 160px;">
                                 <option value="0">Student #1</option>
                             </select>
                         </div>
@@ -437,7 +469,7 @@
 
                     <!-- Interactive Canvas Container -->
                     <div class="canvas-container d-inline-block position-relative shadow-lg rounded-2 overflow-hidden" id="canvasContainer">
-                        <img id="previewCanvasImage" src="{{ url_for('static', filename='sample_templates/classic_gold.png') }}" class="img-fluid d-block" alt="Preview">
+                        <img id="previewCanvasImage" src="{{ url_for('static', filename='sample_templates/' ~ (config.default_template or 'sustainability_midnight.png')) }}" class="img-fluid d-block" alt="Preview">
                         
                         <div id="designerGridOverlay" class="designer-grid-overlay"></div>
                         <div id="designerGuidesOverlay" class="designer-guides-overlay">
@@ -532,7 +564,7 @@
             <div class="d-flex align-items-center gap-3">
                 <span class="step-badge">4</span>
                 <div>
-                    <h4 class="mb-0 fw-bold fs-5 text-light">300 DPI Batch Generation</h4>
+                    <h4 class="mb-0 fw-bold fs-5 text-main">300 DPI Batch Generation</h4>
                     <p class="text-muted fs-xs mb-0">Select your export formats and generate bulk certificates</p>
                 </div>
             </div>
@@ -552,21 +584,21 @@
                             <label class="p-3 bg-surface-alt rounded-3 border border-subtle d-flex align-items-center gap-3 cursor-pointer">
                                 <input type="radio" name="exportFormat" id="fmtPdf" value="pdf" checked class="form-check-input mt-0">
                                 <div>
-                                    <div class="fw-bold text-light fs-sm">PDF (Vector Quality)</div>
+                                    <div class="fw-bold text-main fs-sm">PDF (Vector Quality)</div>
                                     <span class="fs-xxs text-muted">Printable 300 DPI multi-page PDF bundle</span>
                                 </div>
                             </label>
                             <label class="p-3 bg-surface-alt rounded-3 border border-subtle d-flex align-items-center gap-3 cursor-pointer">
                                 <input type="radio" name="exportFormat" id="fmtPng" value="png" class="form-check-input mt-0">
                                 <div>
-                                    <div class="fw-bold text-light fs-sm">PNG (Raster Image)</div>
+                                    <div class="fw-bold text-main fs-sm">PNG (Raster Image)</div>
                                     <span class="fs-xxs text-muted">High-res PNG images for web and email</span>
                                 </div>
                             </label>
                             <label class="p-3 bg-surface-alt rounded-3 border border-subtle d-flex align-items-center gap-3 cursor-pointer">
                                 <input type="radio" name="exportFormat" id="fmtBoth" value="both" class="form-check-input mt-0">
                                 <div>
-                                    <div class="fw-bold text-light fs-sm">Both (PDF + PNG)</div>
+                                    <div class="fw-bold text-main fs-sm">Both (PDF + PNG)</div>
                                     <span class="fs-xxs text-muted">Complete bundle containing both formats</span>
                                 </div>
                             </label>
@@ -606,7 +638,7 @@
                             <div class="p-3 mb-4 bg-surface-alt rounded-3 border border-subtle">
                                 <div class="d-flex align-items-center gap-2 mb-1">
                                     <i class="fa-solid fa-bolt text-warning"></i>
-                                    <span class="fw-bold text-light fs-sm">High-Speed Parallel Processing</span>
+                                    <span class="fw-bold text-main fs-sm">High-Speed Parallel Processing</span>
                                 </div>
                                 <p class="fs-xs text-muted mb-0">
                                     Certificates are rendered in parallel and packaged into a 1-click Combined Multi-Page PDF and a bulk ZIP archive.
@@ -653,7 +685,7 @@
             <div class="d-flex align-items-center gap-3">
                 <span class="step-badge">5</span>
                 <div>
-                    <h4 class="mb-0 fw-bold fs-5 text-light">Download Center</h4>
+                    <h4 class="mb-0 fw-bold fs-5 text-main">Download Center</h4>
                     <p class="text-muted fs-xs mb-0">Download your combined multi-page PDF, bulk ZIP archive, or individual certificates</p>
                 </div>
             </div>
@@ -692,7 +724,7 @@
                         <div class="p-3 bg-danger-subtle text-danger rounded-circle d-inline-block mb-3">
                             <i class="fa-solid fa-file-pdf display-5"></i>
                         </div>
-                        <h5 class="fw-bold mb-1 text-light">Combined Multi-Page PDF</h5>
+                        <h5 class="fw-bold mb-1 text-main">Combined Multi-Page PDF</h5>
                         <p class="text-muted fs-xs mb-4">All student certificates combined in a single print-ready PDF document.</p>
                     </div>
                     <a href="#" id="sectionCombinedPdfBtn" class="btn btn-danger btn-lg rounded-pill fw-bold shadow-sm w-100" download>
@@ -707,7 +739,7 @@
                         <div class="p-3 bg-primary-subtle text-primary rounded-circle d-inline-block mb-3">
                             <i class="fa-solid fa-file-zipper display-5"></i>
                         </div>
-                        <h5 class="fw-bold mb-1 text-light">Complete ZIP Archive</h5>
+                        <h5 class="fw-bold mb-1 text-main">Complete ZIP Archive</h5>
                         <p class="text-muted fs-xs mb-4">Every certificate saved as an individual file, archived inside a ZIP.</p>
                     </div>
                     <a href="#" id="sectionZipDownloadBtn" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-glow w-100" download>
@@ -721,7 +753,7 @@
         <div class="card card-custom shadow-sm border-subtle">
             <div class="card-header bg-transparent py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <div>
-                    <h6 class="fs-xs text-uppercase fw-semibold text-light mb-0"><i class="fa-solid fa-list-check text-accent me-1"></i> Generated Certificates (<span id="sectionTableCountBadge">0</span>)</h6>
+                    <h6 class="fs-xs text-uppercase fw-semibold text-main mb-0"><i class="fa-solid fa-list-check text-accent me-1"></i> Generated Certificates (<span id="sectionTableCountBadge">0</span>)</h6>
                     <span class="fs-xxs text-muted">Individual student certificate files</span>
                 </div>
                 <button type="button" class="btn btn-outline-warning btn-sm rounded-pill px-3 fs-xs fw-semibold" id="sectionDownloadAllIndividualPdfsBtn">
@@ -787,11 +819,13 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block modals %}
 <!-- Modal 1: Batch Success Modal -->
 <div class="modal fade" id="batchSuccessModal" tabindex="-1" aria-labelledby="batchSuccessModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content card-custom border-subtle shadow-lg">
+        <div class="modal-content border-subtle shadow-lg">
             <div class="modal-header border-bottom border-subtle">
                 <div class="d-flex align-items-center gap-2">
                     <div class="bg-success-subtle text-success p-2 rounded-circle">
@@ -802,7 +836,7 @@
                         <span class="fs-xs text-muted" id="batchTimeMeta">Processing complete</span>
                     </div>
                 </div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="row g-2 mb-4 text-center">
@@ -830,7 +864,7 @@
                         <div class="p-3 bg-surface-alt rounded-3 border border-danger text-center h-100 d-flex flex-column justify-content-between shadow-sm">
                             <div>
                                 <i class="fa-solid fa-file-pdf display-5 text-danger mb-2"></i>
-                                <h6 class="fw-bold mb-1 text-light">Combined PDF</h6>
+                                <h6 class="fw-bold mb-1 text-main">Combined PDF</h6>
                                 <p class="text-muted fs-xs mb-3">All certificates in 1 merged document.</p>
                             </div>
                             <a href="#" id="modalCombinedPdfBtn" class="btn btn-danger btn-md rounded-pill fw-bold shadow-sm w-100" download>
@@ -842,7 +876,7 @@
                         <div class="p-3 bg-surface-alt rounded-3 border border-primary text-center h-100 d-flex flex-column justify-content-between shadow-sm">
                             <div>
                                 <i class="fa-solid fa-file-zipper display-5 text-primary mb-2"></i>
-                                <h6 class="fw-bold mb-1 text-light">Complete ZIP</h6>
+                                <h6 class="fw-bold mb-1 text-main">Complete ZIP</h6>
                                 <p class="text-muted fs-xs mb-3">Individual certificates in a ZIP bundle.</p>
                             </div>
                             <a href="#" id="modalZipDownloadBtn" class="btn btn-primary btn-md rounded-pill fw-bold shadow-glow w-100" download>
@@ -865,12 +899,12 @@
 <!-- Modal 2: Live Preview Modal -->
 <div class="modal fade" id="singlePreviewModal" tabindex="-1" aria-labelledby="singlePreviewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content card-custom border-subtle shadow-lg">
+        <div class="modal-content border-subtle shadow-lg">
             <div class="modal-header border-bottom border-subtle d-flex justify-content-between align-items-center">
                 <h5 class="modal-title fw-bold mb-0" id="singlePreviewModalLabel">
                     <i class="fa-solid fa-eye text-primary me-2"></i> High-Resolution Preview
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body text-center bg-dark-canvas p-4">
                 <div class="spinner-border text-primary my-5 d-none" id="previewModalSpinner" role="status">
@@ -891,10 +925,10 @@
 <!-- Modal 3: Add / Edit Record Modal -->
 <div class="modal fade" id="recordEditModal" tabindex="-1" aria-labelledby="recordEditModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content card-custom border-subtle shadow-lg">
+        <div class="modal-content border-subtle shadow-lg">
             <div class="modal-header border-bottom border-subtle">
                 <h5 class="modal-title fw-bold" id="recordEditModalLabel">Add / Edit Student Record</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editRecordIndex" value="-1">
@@ -932,10 +966,10 @@
 <!-- Modal 4: Add Placeholder Field Modal -->
 <div class="modal fade" id="newFieldModal" tabindex="-1" aria-labelledby="newFieldModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content card-custom border-subtle shadow-lg">
+        <div class="modal-content border-subtle shadow-lg">
             <div class="modal-header border-bottom border-subtle">
                 <h5 class="modal-title fw-bold" id="newFieldModalLabel">Add Dynamic Certificate Placeholder</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
@@ -961,7 +995,6 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block extra_scripts %}

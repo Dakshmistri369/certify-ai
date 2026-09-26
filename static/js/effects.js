@@ -16,7 +16,7 @@
         initScrollProgress();
         initButtonRipples();
         initScrollReveal();
-        initCardTilt3D();
+        initInteractiveBoxTouchSystem();
         initAnimatedCounters();
         initCursorGlow();
         initPageTransitions();
@@ -67,7 +67,7 @@
     // =========================================================================
     function initScrollReveal() {
         const revealEls = document.querySelectorAll(
-            ".card-custom, .stepper-wrapper, .upload-dropzone, .tpl-gallery-card, .badge, h1, h2, h3, .btn-generate-3d, table, .alert"
+            ".card-custom:not(.modal-content):not(.modal *), .stepper-wrapper, .upload-dropzone, .tpl-gallery-card, .badge:not(.modal *), h1, h2, h3, .btn-generate-3d, table, .alert"
         );
 
         if (!("IntersectionObserver" in window)) return;
@@ -89,30 +89,79 @@
     }
 
     // =========================================================================
-    // 3D CARD TILT ON HOVER
+    // INTERACTIVE BOX TOUCH & SPOTLIGHT SYSTEM
+    // Dynamic touch tracking, tactile spring lift, touch wave ripple & black accent
     // =========================================================================
-    function initCardTilt3D() {
-        document.querySelectorAll(".card-custom").forEach(card => {
+    function initInteractiveBoxTouchSystem() {
+        const boxSelector = ".card-custom:not(.modal-content):not(.modal *), .card:not(.modal *), .upload-dropzone, .stepper-item, .tpl-gallery-card";
+        const boxes = document.querySelectorAll(boxSelector);
+
+        boxes.forEach(box => {
+            box.classList.add("interactive-touch-box");
             let raf = null;
 
-            card.addEventListener("mousemove", (e) => {
+            function handlePointerMove(e) {
+                const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
+                if (clientX === undefined || clientY === undefined) return;
+
                 cancelAnimationFrame(raf);
                 raf = requestAnimationFrame(() => {
-                    const rect = card.getBoundingClientRect();
-                    const x = (e.clientX - rect.left) / rect.width - 0.5;
-                    const y = (e.clientY - rect.top) / rect.height - 0.5;
-                    card.style.transform = `perspective(800px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg) translateZ(4px)`;
-                    card.style.boxShadow = `${-x * 12}px ${y * 12}px 30px rgba(0,0,0,0.6), 0 0 20px rgba(37,99,235,0.12)`;
-                });
-            }, { passive: true });
+                    const rect = box.getBoundingClientRect();
+                    const x = clientX - rect.left;
+                    const y = clientY - rect.top;
 
-            const reset = () => {
+                    box.style.setProperty("--touch-x", `${x}px`);
+                    box.style.setProperty("--touch-y", `${y}px`);
+
+                    const normX = (x / rect.width) - 0.5;
+                    const normY = (y / rect.height) - 0.5;
+                    box.style.transform = `perspective(900px) rotateX(${-normY * 4.5}deg) rotateY(${normX * 4.5}deg) translateY(-4px) translateZ(3px)`;
+                    box.style.borderColor = "#000000";
+                    box.style.boxShadow = `${-normX * 10}px ${normY * 10}px 26px rgba(15, 23, 42, 0.11), 0 4px 14px rgba(37, 99, 235, 0.08)`;
+                });
+            }
+
+            function handlePointerDown(e) {
+                const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
+                if (clientX === undefined || clientY === undefined) return;
+
+                const rect = box.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+
+                // Tactile touch wave ripple
+                const wave = document.createElement("span");
+                wave.className = "box-touch-wave";
+                wave.style.left = `${x}px`;
+                wave.style.top = `${y}px`;
+                box.appendChild(wave);
+                setTimeout(() => wave.remove(), 700);
+
+                box.classList.add("touch-active");
+            }
+
+            function handlePointerEnd() {
                 cancelAnimationFrame(raf);
-                card.style.transform = "";
-                card.style.boxShadow = "";
-            };
-            card.addEventListener("mouseleave", reset, { passive: true });
-            card.addEventListener("touchend", reset, { passive: true });
+                box.classList.remove("touch-active");
+                box.style.transform = "";
+                box.style.borderColor = "";
+                box.style.boxShadow = "";
+            }
+
+            box.addEventListener("mousemove", handlePointerMove, { passive: true });
+            box.addEventListener("mousedown", handlePointerDown, { passive: true });
+            box.addEventListener("mouseleave", handlePointerEnd, { passive: true });
+            box.addEventListener("mouseup", handlePointerEnd, { passive: true });
+
+            box.addEventListener("touchstart", (e) => {
+                handlePointerDown(e);
+                handlePointerMove(e);
+            }, { passive: true });
+            box.addEventListener("touchmove", handlePointerMove, { passive: true });
+            box.addEventListener("touchend", handlePointerEnd, { passive: true });
+            box.addEventListener("touchcancel", handlePointerEnd, { passive: true });
         });
     }
 
@@ -186,6 +235,10 @@
             setTimeout(() => {
                 main.style.opacity = "1";
                 main.style.transform = "translateY(0)";
+                // Dissolve stacking context after entrance so position:fixed works normally
+                setTimeout(() => {
+                    main.style.transform = "";
+                }, 520);
             }, 100);
         }
 
@@ -198,6 +251,9 @@
             setTimeout(() => {
                 nav.style.opacity = "1";
                 nav.style.transform = "translateY(0)";
+                setTimeout(() => {
+                    nav.style.transform = "";
+                }, 420);
             }, 50);
         }
     }
@@ -232,7 +288,7 @@
             }
 
             /* Card 3D tilt transition */
-            .card-custom {
+            .card-custom:not(.modal-content):not(.modal *) {
                 transition: transform 0.12s ease, box-shadow 0.12s ease !important;
                 will-change: transform;
             }

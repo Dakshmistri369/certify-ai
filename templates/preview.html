@@ -87,7 +87,6 @@
                 <div class="card-header bg-transparent d-flex flex-wrap justify-content-between align-items-center py-3 gap-2">
                     <div class="d-flex align-items-center gap-2">
                         <h5 class="mb-0 fw-semibold fs-6"><i class="fa-solid fa-image text-primary me-2"></i> Output Viewport</h5>
-                        <span class="badge bg-success-subtle text-success fs-xs"><i class="fa-solid fa-circle-check me-1"></i> 300 DPI High Resolution</span>
                     </div>
                     
                     <!-- View Mode Toggle Pills -->
@@ -115,29 +114,29 @@
                             
                             <!-- Layer 1: Background Template (Depth 15) -->
                             <div class="cert-layer layer-bg" data-depth="15">
-                                <img id="cert3dBgImg" src="{{ url_for('static', filename='sample_templates/classic_gold.png') }}" class="cert-bg-img" alt="Certificate Background">
+                                <img id="cert3dBgImg" src="{{ url_for('static', filename='sample_templates/' ~ (config.default_template or 'sustainability_midnight.png')) }}" class="cert-bg-img" alt="Certificate Background">
                             </div>
 
                             <!-- Layer 2: Certificate Header / Title (Depth 30) -->
                             <div class="cert-layer layer-title" data-depth="30">
-                                <div class="text-center px-4" style="margin-top: -30%;">
-                                    <h4 class="fw-bold tracking-wide text-uppercase mb-0" id="cert3dTitle" style="color: #FFFFFF; letter-spacing: 3px; font-size: 1.3rem;">CERTIFICATE OF ACHIEVEMENT</h4>
-                                    <span class="fs-xs text-muted" style="letter-spacing: 1.5px;">THIS IS PROUDLY PRESENTED TO</span>
+                                <div class="cert-pos-header text-center px-3">
+                                    <h4 class="fw-bold tracking-wide text-uppercase mb-0 cert-fluid-title" id="cert3dTitle">CERTIFICATE OF ACHIEVEMENT</h4>
+                                    <span class="cert-fluid-sub text-muted">THIS IS PROUDLY PRESENTED TO</span>
                                 </div>
                             </div>
 
                             <!-- Layer 3: Recipient Name (Depth 75 - Floats High) -->
                             <div class="cert-layer layer-name" data-depth="75">
-                                <div class="text-center px-3" style="margin-top: -6%;">
-                                    <h2 class="fw-bold mb-0" id="cert3dName" style="color: #FFFFFF; font-family: 'Great Vibes', cursive; font-size: 2.8rem; text-shadow: 0 4px 14px rgba(0,0,0,0.85);">Dr. Alexander Morgan, Ph.D.</h2>
+                                <div class="cert-pos-name text-center px-3">
+                                    <h2 class="fw-bold mb-0 cert-fluid-name" id="cert3dName">Dr. Alexander Morgan, Ph.D.</h2>
                                 </div>
                             </div>
 
                             <!-- Layer 4: Course Title (Depth 45) -->
                             <div class="cert-layer layer-course" data-depth="45">
-                                <div class="text-center px-4" style="margin-top: 14%;">
-                                    <h5 class="fw-bold text-uppercase mb-1" id="cert3dCourse" style="color: #E5E7EB; font-size: 0.95rem; letter-spacing: 1px;">Artificial Intelligence & Neural Architectures</h5>
-                                    <span class="badge bg-dark border border-subtle text-light px-3 py-1 fs-xs" id="cert3dGrade">With Distinction — Grade A+</span>
+                                <div class="cert-pos-course text-center px-3">
+                                    <h5 class="fw-bold text-uppercase mb-1 cert-fluid-course" id="cert3dCourse">Artificial Intelligence & Neural Architectures</h5>
+                                    <span class="badge bg-dark-subtle border border-subtle text-main px-2 py-1 cert-fluid-grade" id="cert3dGrade">With Distinction — Grade A+</span>
                                 </div>
                             </div>
 
@@ -151,14 +150,14 @@
 
                             <!-- Layer 6: Date & Cert ID Meta (Depth 50) -->
                             <div class="cert-layer layer-meta" data-depth="50">
-                                <div class="d-flex justify-content-between w-100 px-5" style="margin-top: 36%;">
+                                <div class="cert-pos-footer d-flex justify-content-between w-100 px-4 px-md-5">
                                     <div class="text-center">
-                                        <span class="fs-xxs text-muted d-block">DATE ISSUED</span>
-                                        <span class="fs-xs fw-semibold text-light" id="cert3dDate">February 18, 2026</span>
+                                        <span class="cert-fluid-meta-label text-muted d-block">DATE ISSUED</span>
+                                        <span class="cert-fluid-meta-val text-main" id="cert3dDate">February 18, 2026</span>
                                     </div>
                                     <div class="text-center">
-                                        <span class="fs-xxs text-muted d-block">VERIFICATION ID</span>
-                                        <code class="fs-xs text-primary fw-bold" id="cert3dId">CERT-2026-9901</code>
+                                        <span class="cert-fluid-meta-label text-muted d-block">VERIFICATION ID</span>
+                                        <code class="cert-fluid-meta-val text-primary fw-bold" id="cert3dId">CERT-2026-9901</code>
                                     </div>
                                 </div>
                             </div>

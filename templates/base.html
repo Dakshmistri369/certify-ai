@@ -6,10 +6,10 @@
     <title>{% block title %}AI Certificate Generator{% endblock %} - Smart Bulk Certification</title>
     <meta name="description" content="Generate high-resolution personalized certificates from Excel, CSV, or PDF in bulk with custom typography and coordinate layouts.">
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Curated Senior Designer Typography Suite -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=Roboto:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,20 +22,215 @@
 </head>
 <body class="bg-surface text-main">
 
-    <!-- 3D Cinematic Opening Brand Animation Screen -->
+    <!-- 3D Cinematic Opening Brand Animation & Senior Designer Studio -->
     <div id="appIntroSplash" class="intro-splash-screen" role="dialog" aria-modal="true" aria-label="CertifyAI 3D Opening Animation">
-        <!-- 3D Perspective Grid Background & Ambient Orbs -->
+        <!-- 3D Perspective Grid Background & Ambient Lighting -->
+        <div class="intro-spotlight-cone"></div>
         <div class="intro-3d-grid"></div>
         <div class="intro-ambient-orb orb-1"></div>
         <div class="intro-ambient-orb orb-2"></div>
-        
+        <div class="intro-ambient-orb orb-3"></div>
+
+        <!-- Elegant Minimalist Corner Close Button -->
+        <button type="button" class="intro-corner-close-btn" onclick="window.dismissCertifyIntro(event)" title="Exit 3D Studio (Esc)">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- 3D Spatial Typographic Floating Watermarks in Background -->
+        <div class="intro-spatial-badge sbadge-1">
+            <i class="fa-solid fa-certificate text-warning"></i> 300 DPI VECTOR ENGINE
+        </div>
+        <div class="intro-spatial-badge sbadge-2">
+            <i class="fa-solid fa-shield-halved text-primary"></i> CRYPTOGRAPHIC WATERMARK
+        </div>
+        <div class="intro-spatial-badge sbadge-3">
+            <i class="fa-solid fa-wand-magic-sparkles text-info"></i> 3D PERSPECTIVE PARALLAX
+        </div>
+        <div class="intro-spatial-badge sbadge-4">
+            <i class="fa-solid fa-layer-group text-success"></i> 8 TEMPLATES IN ORBIT
+        </div>
+
+        <!-- 3D Background Revolving Orbital Templates Carousel -->
+        <div class="intro-bg-carousel-stage" id="introBgCarouselStage">
+            <div class="intro-bg-carousel-cylinder" id="introBgCarouselCylinder">
+                <!-- Card 0: Midnight Luxury -->
+                <div class="orbit-tpl-card tpl-card-0 active-tpl" data-index="0" data-tpl="sustainability_midnight.png" data-name="Midnight Luxury" onclick="window.setIntroTemplate('sustainability_midnight.png', 'Midnight Luxury')" title="Click to apply Midnight Luxury">
+                    <div class="orbit-tpl-card-face orbit-card-front">
+                        <div class="orbit-tpl-media">
+                            <img src="/static/sample_templates/sustainability_midnight.png" alt="Midnight Luxury" loading="eager">
+                            <div class="orbit-tpl-sheen"></div>
+                        </div>
+                        <div class="orbit-tpl-badge">
+                            <span class="orbit-badge-dot"></span>
+                            <span class="orbit-badge-text text-glow-gold">Midnight Luxury</span>
+                            <span class="orbit-badge-pill">★ 300 DPI</span>
+                        </div>
+                    </div>
+                    <div class="orbit-tpl-card-face orbit-card-back">
+                        <div class="orbit-back-seal"><i class="fa-solid fa-award"></i></div>
+                        <span class="orbit-back-brand">CertifyAI</span>
+                        <span class="orbit-back-tag">MIDNIGHT LUXURY</span>
+                    </div>
+                </div>
+
+                <!-- Card 1: Classic Gold -->
+                <div class="orbit-tpl-card tpl-card-1" data-index="1" data-tpl="classic_gold.png" data-name="Classic Gold" onclick="window.setIntroTemplate('classic_gold.png', 'Classic Gold')" title="Click to apply Classic Gold">
+                    <div class="orbit-tpl-card-face orbit-card-front">
+                        <div class="orbit-tpl-media">
+                            <img src="/static/sample_templates/classic_gold.png" alt="Classic Gold" loading="eager">
+                            <div class="orbit-tpl-sheen"></div>
+                        </div>
+                        <div class="orbit-tpl-badge">
+                            <span class="orbit-badge-dot"></span>
+                            <span class="orbit-badge-text text-glow-gold">Classic Gold</span>
+                            <span class="orbit-badge-pill">★ 300 DPI</span>
+                        </div>
+                    </div>
+                    <div class="orbit-tpl-card-face orbit-card-back">
+                        <div class="orbit-back-seal"><i class="fa-solid fa-award"></i></div>
+                        <span class="orbit-back-brand">CertifyAI</span>
+                        <span class="orbit-back-tag">CLASSIC GOLD</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Cyan Guilloche -->
+                <div class="orbit-tpl-card tpl-card-2" data-index="2" data-tpl="sustainability_cyan.png" data-name="Cyan Guilloche" onclick="window.setIntroTemplate('sustainability_cyan.png', 'Cyan Guilloche')" title="Click to apply Cyan Guilloche">
+                    <div class="orbit-tpl-card-face orbit-card-front">
+                        <div class="orbit-tpl-media">
+                            <img src="/static/sample_templates/sustainability_cyan.png" alt="Cyan Guilloche" loading="eager">
+                            <div class="orbit-tpl-sheen"></div>
+                        </div>
+                        <div class="orbit-tpl-badge">
+                            <span class="orbit-badge-dot"></span>
+                            <span class="orbit-badge-text text-glow-cyan">Cyan Guilloche</span>
+                            <span class="orbit-badge-pill">★ 300 DPI</span>
+                        </div>
+                    </div>
+                    <div class="orbit-tpl-card-face orbit-card-back">
+                        <div class="orbit-back-seal"><i class="fa-solid fa-award"></i></div>
+                        <span class="orbit-back-brand">CertifyAI</span>
+                        <span class="orbit-back-tag">CYAN GUILLOCHE</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Royal Sapphire -->
+                <div class="orbit-tpl-card tpl-card-3" data-index="3" data-tpl="modern_blue.png" data-name="Royal Sapphire" onclick="window.setIntroTemplate('modern_blue.png', 'Royal Sapphire')" title="Click to apply Royal Sapphire">
+                    <div class="orbit-tpl-card-face orbit-card-front">
+                        <div class="orbit-tpl-media">
+                            <img src="/static/sample_templates/modern_blue.png" alt="Royal Sapphire" loading="eager">
+                            <div class="orbit-tpl-sheen"></div>
+                        </div>
+                        <div class="orbit-tpl-badge">
+                            <span class="orbit-badge-dot"></span>
+                            <span class="orbit-badge-text text-glow-blue">Royal Sapphire</span>
+                            <span class="orbit-badge-pill">★ 300 DPI</span>
+                        </div>
+                    </div>
+                    <div class="orbit-tpl-card-face orbit-card-back">
+                        <div class="orbit-back-seal"><i class="fa-solid fa-award"></i></div>
+                        <span class="orbit-back-brand">CertifyAI</span>
+                        <span class="orbit-back-tag">ROYAL SAPPHIRE</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Vintage Slate -->
+                <div class="orbit-tpl-card tpl-card-4" data-index="4" data-tpl="sustainability_slate.png" data-name="Vintage Slate" onclick="window.setIntroTemplate('sustainability_slate.png', 'Vintage Slate')" title="Click to apply Vintage Slate">
+                    <div class="orbit-tpl-card-face orbit-card-front">
+                        <div class="orbit-tpl-media">
+                            <img src="/static/sample_templates/sustainability_slate.png" alt="Vintage Slate" loading="eager">
+                            <div class="orbit-tpl-sheen"></div>
+                        </div>
+                        <div class="orbit-tpl-badge">
+                            <span class="orbit-badge-dot"></span>
+                            <span class="orbit-badge-text text-glow-slate">Vintage Slate</span>
+                            <span class="orbit-badge-pill">★ 300 DPI</span>
+                        </div>
+                    </div>
+                    <div class="orbit-tpl-card-face orbit-card-back">
+                        <div class="orbit-back-seal"><i class="fa-solid fa-award"></i></div>
+                        <span class="orbit-back-brand">CertifyAI</span>
+                        <span class="orbit-back-tag">VINTAGE SLATE</span>
+                    </div>
+                </div>
+
+                <!-- Card 5: Security Lace -->
+                <div class="orbit-tpl-card tpl-card-5" data-index="5" data-tpl="sustainability_lace.png" data-name="Security Lace" onclick="window.setIntroTemplate('sustainability_lace.png', 'Security Lace')" title="Click to apply Security Lace">
+                    <div class="orbit-tpl-card-face orbit-card-front">
+                        <div class="orbit-tpl-media">
+                            <img src="/static/sample_templates/sustainability_lace.png" alt="Security Lace" loading="eager">
+                            <div class="orbit-tpl-sheen"></div>
+                        </div>
+                        <div class="orbit-tpl-badge">
+                            <span class="orbit-badge-dot"></span>
+                            <span class="orbit-badge-text text-glow-emerald">Security Lace</span>
+                            <span class="orbit-badge-pill">★ 300 DPI</span>
+                        </div>
+                    </div>
+                    <div class="orbit-tpl-card-face orbit-card-back">
+                        <div class="orbit-back-seal"><i class="fa-solid fa-award"></i></div>
+                        <span class="orbit-back-brand">CertifyAI</span>
+                        <span class="orbit-back-tag">SECURITY LACE</span>
+                    </div>
+                </div>
+
+                <!-- Card 6: Royal Academic -->
+                <div class="orbit-tpl-card tpl-card-6" data-index="6" data-tpl="sustainability_academic.png" data-name="Royal Academic" onclick="window.setIntroTemplate('sustainability_academic.png', 'Royal Academic')" title="Click to apply Royal Academic">
+                    <div class="orbit-tpl-card-face orbit-card-front">
+                        <div class="orbit-tpl-media">
+                            <img src="/static/sample_templates/sustainability_academic.png" alt="Royal Academic" loading="eager">
+                            <div class="orbit-tpl-sheen"></div>
+                        </div>
+                        <div class="orbit-tpl-badge">
+                            <span class="orbit-badge-dot"></span>
+                            <span class="orbit-badge-text text-glow-crimson">Royal Academic</span>
+                            <span class="orbit-badge-pill">★ 300 DPI</span>
+                        </div>
+                    </div>
+                    <div class="orbit-tpl-card-face orbit-card-back">
+                        <div class="orbit-back-seal"><i class="fa-solid fa-award"></i></div>
+                        <span class="orbit-back-brand">CertifyAI</span>
+                        <span class="orbit-back-tag">ROYAL ACADEMIC</span>
+                    </div>
+                </div>
+
+                <!-- Card 7: Modern Minimalist -->
+                <div class="orbit-tpl-card tpl-card-7" data-index="7" data-tpl="sustainability_modern.png" data-name="Modern Minimalist" onclick="window.setIntroTemplate('sustainability_modern.png', 'Modern Minimalist')" title="Click to apply Modern Minimalist">
+                    <div class="orbit-tpl-card-face orbit-card-front">
+                        <div class="orbit-tpl-media">
+                            <img src="/static/sample_templates/sustainability_modern.png" alt="Modern Minimalist" loading="eager">
+                            <div class="orbit-tpl-sheen"></div>
+                        </div>
+                        <div class="orbit-tpl-badge">
+                            <span class="orbit-badge-dot"></span>
+                            <span class="orbit-badge-text text-glow-modern">Modern Minimalist</span>
+                            <span class="orbit-badge-pill">★ 300 DPI</span>
+                        </div>
+                    </div>
+                    <div class="orbit-tpl-card-face orbit-card-back">
+                        <div class="orbit-back-seal"><i class="fa-solid fa-award"></i></div>
+                        <span class="orbit-back-brand">CertifyAI</span>
+                        <span class="orbit-back-tag">MODERN MINIMALIST</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3D Kinetic Typographic Orbital Rings (Text Effects in Background) -->
+        <div class="intro-kinetic-orbit-ring ring-1"></div>
+        <div class="intro-kinetic-orbit-ring-2 ring-2"></div>
+
+        <!-- Main Content Stage -->
         <div class="intro-content-stage">
-            
             <!-- 3D Floating Certificate Stage -->
             <div class="intro-3d-card-wrapper" id="intro3dCardWrapper">
-                <div class="intro-3d-card" id="intro3dCard">
-                    
-                    <!-- Layer 1: Metallic Certificate Frame (Depth Z: 0) -->
+                <div class="intro-3d-card preset-royal" id="intro3dCard">
+                    <!-- Layer 0: Template Background Art with Smooth Crossfade -->
+                    <div class="card-3d-layer card-3d-bg-art">
+                        <img id="intro3dCardBg" src="/static/sample_templates/sustainability_midnight.png" class="card-3d-bg-img" alt="Certificate Background Artwork">
+                        <div class="card-3d-bg-overlay"></div>
+                    </div>
+
+                    <!-- Layer 1: Metallic Certificate Frame (Depth Z: 10px) -->
                     <div class="card-3d-layer card-3d-base">
                         <div class="card-border-gold"></div>
                         <div class="card-corner corner-tl"></div>
@@ -44,7 +239,7 @@
                         <div class="card-corner corner-br"></div>
                     </div>
 
-                    <!-- Layer 2: 3D Holographic Ribbon & Badge (Depth Z: 35px) -->
+                    <!-- Layer 2: 3D Holographic Ribbon & Badge (Depth Z: 45px) -->
                     <div class="card-3d-layer card-3d-ribbon">
                         <div class="intro-gold-seal">
                             <div class="seal-outer-spin"></div>
@@ -52,71 +247,91 @@
                         </div>
                     </div>
 
-                    <!-- Layer 3: 3D Embossed Title & Student Name (Depth Z: 65px) -->
+                    <!-- Layer 3: 3D Embossed Title & Student Name with Animated Typography (Depth Z: 75px) -->
                     <div class="card-3d-layer card-3d-content">
-                        <div class="card-3d-header">CERTIFICATE OF ACHIEVEMENT</div>
-                        <div class="card-3d-sub">PROUDLY PRESENTED TO</div>
-                        <div class="card-3d-name">Alexander Morgan</div>
-                        <div class="card-3d-course">ARTIFICIAL INTELLIGENCE & NEURAL ARCHITECTURES</div>
+                        <div class="card-3d-header" id="intro3dHeader">CERTIFICATE OF ACHIEVEMENT</div>
+                        <div class="card-3d-sub" id="intro3dSub">PROUDLY PRESENTED TO</div>
+                        <div class="card-3d-name text-anim-gold-foil" id="intro3dName" title="Click to cycle typography fonts">Alexander Morgan</div>
+                        <div class="card-3d-course" id="intro3dCourse">ARTIFICIAL INTELLIGENCE & NEURAL ARCHITECTURES</div>
+                        <div class="card-3d-meta" id="intro3dMeta">
+                            <span class="meta-tag"><i class="fa-solid fa-circle-check text-warning me-1"></i>VERIFIED ACCREDITATION</span>
+                            <span class="meta-divider">•</span>
+                            <span class="meta-id">ID: CERT-2026-AI</span>
+                        </div>
                     </div>
 
                     <!-- Holographic Foil & Light Sweep Overlay -->
                     <div class="card-3d-sheen"></div>
                     <div class="card-3d-glare" id="intro3dGlare"></div>
                 </div>
-
-                <!-- 3D Orbital Rings around Certificate -->
-                <div class="intro-orbit-ring ring-1"></div>
-                <div class="intro-orbit-ring ring-2"></div>
             </div>
 
-            <!-- Brand Heading & Progress -->
-            <div class="intro-brand-heading mt-4">
+            <!-- Grand Brand Heading with Senior Designer Typography -->
+            <div class="intro-brand-heading mt-3">
                 <h1 class="intro-title">
                     <span class="intro-word-certify">Certify</span><span class="intro-word-ai text-gradient">AI</span>
                 </h1>
+                <p class="intro-subtitle-pill">
+                    <span class="badge-dot-cyan"></span>
+                    <span>3D CINEMATIC REPLAY &bull; <strong id="introActiveTplName">Midnight Luxury</strong></span>
+                </p>
             </div>
+        </div>
 
-            <p class="intro-tagline">Smart Certificate Generation Studio</p>
-
-            <!-- Progress Bar -->
-            <div class="intro-progress-container">
-                <div class="intro-progress-track">
-                    <div class="intro-progress-fill" id="introProgressBar"></div>
-                </div>
-                <div class="intro-status-text" id="introStatusText">INITIALIZING 3D ENGINE...</div>
+        <!-- Floating Senior Designer HUD: Bottom Text Animation Chooser & Hints -->
+        <div class="intro-designer-hud-bottom">
+            <div class="intro-anim-bar">
+                <span class="anim-bar-label"><i class="fa-solid fa-wand-magic-sparkles text-warning me-1"></i>Text Effect:</span>
+                <button type="button" class="intro-anim-btn active" data-anim="gold" onclick="window.setIntroTextAnimation('gold')" title="Liquid Gold Foil text shimmer">
+                    <span>✨ Liquid Gold</span>
+                </button>
+                <button type="button" class="intro-anim-btn" data-anim="cyber" onclick="window.setIntroTextAnimation('cyber')" title="Electric Cyber Cyan laser glow">
+                    <span>⚡ Cyber Cyan</span>
+                </button>
+                <button type="button" class="intro-anim-btn" data-anim="rose" onclick="window.setIntroTextAnimation('rose')" title="Champagne Rose Gold wave">
+                    <span>💖 Rose Gold</span>
+                </button>
+                <button type="button" class="intro-anim-btn" data-anim="diamond" onclick="window.setIntroTextAnimation('diamond')" title="Pure Diamond Starlight flare">
+                    <span>💎 Diamond</span>
+                </button>
+                <div class="vr my-1 opacity-25 d-none d-sm-block" style="height: 18px;"></div>
+                <button type="button" class="intro-anim-btn intro-orbit-toggle-btn" id="introOrbitToggleBtn" onclick="window.toggleIntroOrbit()" title="Pause/Play 3D Orbit Carousel">
+                    <i class="fa-solid fa-pause"></i> <span class="d-none d-sm-inline">Orbit</span>
+                </button>
             </div>
-            
-            <div class="intro-skip-hint">Click anywhere or press Space to skip</div>
+            <div class="intro-orbit-hint d-none d-md-block">
+                <span><i class="fa-solid fa-sparkles text-warning me-1"></i> Touch or click any revolving template to apply &bull; Press <strong>ESC</strong> to close</span>
+            </div>
         </div>
     </div>
 
-    <!-- Navigation Header -->
-    <header class="navbar navbar-expand-lg navbar-dark bg-glass sticky-top border-bottom border-subtle">
+    <!-- Navigation Header (Two-Part Structure with Solid Black Border Underneath) -->
+    <header class="navbar navbar-expand-lg navbar-light bg-glass sticky-top nav-header-bordered">
         <div class="container-fluid px-lg-5">
+            <!-- PART 1: Brand Logo on Left -->
             <a class="navbar-brand d-flex align-items-center gap-3 brand-navbar-link" href="{{ url_for('index') }}" id="brandLogoLink">
                 <div class="brand-logo-wrapper" id="brandLogoWrapper" title="Interactive CertifyAI 3D Logo">
                     <div class="interactive-brand-logo" id="interactiveBrandLogo">
                         <svg class="brand-svg-symbol" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="brandGradGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#FFFFFF" />
-                                    <stop offset="50%" stop-color="#D1D5DB" />
-                                    <stop offset="100%" stop-color="#9CA3AF" />
+                                    <stop offset="0%" stop-color="#2563EB" />
+                                    <stop offset="50%" stop-color="#3B82F6" />
+                                    <stop offset="100%" stop-color="#F59E0B" />
                                 </linearGradient>
                             </defs>
                             <circle cx="24" cy="24" r="21.5" stroke="url(#brandGradGold)" stroke-width="1.2" stroke-dasharray="3.5 2.5" class="nav-orbit-ring" opacity="0.85" />
                             <g class="nav-ribbon-tails" opacity="0.95">
-                                <path d="M19 32 L15 44 L24 39 L33 44 L29 32 Z" fill="#1C1C1C" stroke="url(#brandGradGold)" stroke-width="1" stroke-linejoin="round" />
+                                <path d="M19 32 L15 44 L24 39 L33 44 L29 32 Z" fill="#000000" stroke="#000000" stroke-width="1.2" stroke-linejoin="round" />
                             </g>
                             <g class="nav-star-seal">
-                                <path d="M24 7 L28 12 L35 10 L36 17 L42 20 L39 26 L44 31 L38 35 L37 42 L30 41 L24 46 L18 41 L11 42 L10 35 L4 31 L9 26 L6 20 L12 17 L13 10 L20 12 Z" fill="#181818" stroke="url(#brandGradGold)" stroke-width="1.4" stroke-linejoin="round" />
-                                <circle cx="24" cy="24" r="11.5" fill="#0C0C0C" stroke="#4B5563" stroke-width="0.8" />
+                                <path d="M24 7 L28 12 L35 10 L36 17 L42 20 L39 26 L44 31 L38 35 L37 42 L30 41 L24 46 L18 41 L11 42 L10 35 L4 31 L9 26 L6 20 L12 17 L13 10 L20 12 Z" fill="#000000" stroke="#000000" stroke-width="1.4" stroke-linejoin="round" />
+                                <circle cx="24" cy="24" r="11.5" fill="#000000" stroke="#000000" stroke-width="0.8" />
                             </g>
                             <g class="nav-ai-star">
-                                <path d="M24 13 Q24 24 33 24 Q24 24 24 35 Q24 24 15 24 Q24 24 24 13 Z" fill="#FFFFFF" class="nav-sparkle-pulse" />
-                                <circle cx="24" cy="24" r="2.2" fill="#000000" stroke="#FFFFFF" stroke-width="0.8" />
-                                <circle cx="24" cy="24" r="1" fill="#FFFFFF" />
+                                <path d="M24 13 Q24 24 33 24 Q24 24 24 35 Q24 24 15 24 Q24 24 24 13 Z" fill="#F59E0B" class="nav-sparkle-pulse" />
+                                <circle cx="24" cy="24" r="2.2" fill="#FFFFFF" stroke="#2563EB" stroke-width="0.8" />
+                                <circle cx="24" cy="24" r="1" fill="#2563EB" />
                             </g>
                         </svg>
                     </div>
@@ -130,60 +345,57 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">
-                            <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Generator
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'preview_page' %}active{% endif %}" href="{{ url_for('preview_page') }}">
-                            <i class="fa-solid fa-eye me-1"></i> Live Inspector
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
-                            <i class="fa-solid fa-gauge-high me-1"></i> Dashboard & History
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.endpoint == 'verify_page' %}active{% endif %}" href="{{ url_for('verify_page') }}">
-                            <i class="fa-solid fa-shield-halved me-1"></i> Verify
-                        </a>
-                    </li>
-                </ul>
+            <!-- PART 2: All Nav Links & Actions Grouped on Right -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-3 ms-auto mt-2 mt-lg-0">
+                    <ul class="navbar-nav mb-2 mb-lg-0 gap-lg-2">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">
+                                <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Generator
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'preview_page' %}active{% endif %}" href="{{ url_for('preview_page') }}">
+                                <i class="fa-solid fa-eye me-1"></i> Live Inspector
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+                                <i class="fa-solid fa-gauge-high me-1"></i> Dashboard & History
+                            </a>
+                        </li>
+                    </ul>
 
-                <div class="d-flex align-items-center gap-2">
-                    {% if db_status and db_status.connected %}
-                    <div class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fs-xs d-none d-md-inline-flex align-items-center gap-1" title="MongoDB Atlas Active (DB: {{ db_status.database }})">
-                        <span class="spinner-grow spinner-grow-sm text-success" style="width: 7px; height: 7px;" role="status"></span>
-                        <i class="fa-solid fa-database ms-1 me-1"></i> MongoDB Atlas
-                    </div>
-                    {% else %}
-                    <div class="badge bg-secondary-subtle text-secondary border border-subtle rounded-pill px-3 py-2 fs-xs d-none d-md-inline-flex align-items-center gap-1" title="Local Storage Fallback">
-                        <i class="fa-solid fa-database me-1"></i> Local Sync
-                    </div>
-                    {% endif %}
+                    <!-- Subtle Vertical Divider between Navigation and Tools -->
+                    <div class="vr d-none d-lg-block my-1 text-dark opacity-25" style="height: 24px;"></div>
 
-                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="window.replayCertifyIntro()" title="Replay 3D Opening Intro">
-                        <i class="fa-solid fa-play me-1 text-white"></i> Replay 3D Intro
-                    </button>
-                    
-                    <div class="dropdown">
-                        <button class="btn btn-outline-light btn-sm dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown">
-                            <i class="fa-solid fa-download me-1 text-accent"></i> Sample Assets
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn btn-outline-warning btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1 shadow-sm" onclick="window.replayCertifyIntro()" title="Play 3D Cinematic Opening Animation">
+                            <i class="fa-solid fa-cube text-warning"></i> <span>3D Play</span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark shadow-lg">
-                            <li><h6 class="dropdown-header text-uppercase fs-xs">Student Datasets</h6></li>
-                            <li><a class="dropdown-item" href="{{ url_for('download_sample_data', file_type='excel') }}"><i class="fa-regular fa-file-excel text-success me-2"></i>Sample Excel (.xlsx)</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('download_sample_data', file_type='csv') }}"><i class="fa-regular fa-file-csv text-info me-2"></i>Sample CSV (.csv)</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('download_sample_data', file_type='pdf') }}"><i class="fa-regular fa-file-pdf text-danger me-2"></i>Sample PDF Roster (.pdf)</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><h6 class="dropdown-header text-uppercase fs-xs">Sample Templates</h6></li>
-                            <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='classic_gold.png') }}"><i class="fa-solid fa-award text-warning me-2"></i>Classic Gold (PNG)</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='modern_blue.png') }}"><i class="fa-solid fa-award text-primary me-2"></i>Modern Blue (PNG)</a></li>
-                        </ul>
+                        
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-download me-1 text-accent"></i> Sample Assets
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg">
+                                <li><h6 class="dropdown-header text-uppercase fs-xs">Student Datasets</h6></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_data', file_type='excel') }}"><i class="fa-regular fa-file-excel text-success me-2"></i>Sample Excel (.xlsx)</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_data', file_type='csv') }}"><i class="fa-regular fa-file-csv text-info me-2"></i>Sample CSV (.csv)</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_data', file_type='pdf') }}"><i class="fa-regular fa-file-pdf text-danger me-2"></i>Sample PDF Roster (.pdf)</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header text-uppercase fs-xs">Sample Templates</h6></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='sustainability_midnight.png') }}"><i class="fa-solid fa-moon text-info me-2"></i>Midnight Luxury (PNG)</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='sustainability_cyan.png') }}"><i class="fa-solid fa-certificate text-primary me-2"></i>Cyan Guilloche (PNG)</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='sustainability_slate.png') }}"><i class="fa-solid fa-gem text-warning me-2"></i>Vintage Slate (PNG)</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='sustainability_modern.png') }}"><i class="fa-solid fa-shapes text-info me-2"></i>Modern Geometric (PNG)</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='sustainability_academic.png') }}"><i class="fa-solid fa-graduation-cap text-primary me-2"></i>Royal Academic (PNG)</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='sustainability_lace.png') }}"><i class="fa-solid fa-shield-halved text-success me-2"></i>Security Lace (PNG)</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='classic_gold.png') }}"><i class="fa-solid fa-award text-warning me-2"></i>Classic Gold (PNG)</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('download_sample_template', template_name='modern_blue.png') }}"><i class="fa-solid fa-award text-primary me-2"></i>Modern Blue (PNG)</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -209,15 +421,15 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer mt-auto py-4 border-top border-subtle bg-surface-alt text-light fs-sm">
+    <footer class="footer mt-auto py-4 border-top border-subtle bg-surface-alt text-muted fs-sm">
         <div class="container text-center">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-                <p class="mb-0 text-white" style="opacity: 0.9;">
-                    <strong class="text-white">CertifyAI</strong> &copy; 2026. Automated High-Resolution Certificate Generation Engine.
+                <p class="mb-0 text-muted">
+                    <strong class="text-main">CertifyAI</strong> &copy; 2026. Automated High-Resolution Certificate Generation Engine.
                 </p>
-                <div class="d-flex align-items-center gap-3 text-white" style="opacity: 0.9;">
+                <div class="d-flex align-items-center gap-3 text-muted">
                     <span><i class="fa-solid fa-shield-halved text-primary me-1"></i> Data Secure</span>
-                    <span><i class="fa-solid fa-bolt text-warning me-1"></i> 300 DPI Output</span>
+                    <span><i class="fa-solid fa-bolt text-warning me-1"></i> Print Ready</span>
                 </div>
             </div>
         </div>
@@ -311,6 +523,9 @@
 
     <!-- Toast Notification Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer" style="z-index: 1090;"></div>
+
+    <!-- Modals Container (Top-level Body Scope to Prevent Stacking Context Trapping) -->
+    {% block modals %}{% endblock %}
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
