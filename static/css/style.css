@@ -1262,67 +1262,24 @@ h1, h2, h3, h4, h5, h6, .brand-title, .hero-title {
   }
 }
 
-.intro-anim-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(10, 15, 28, 0.85);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 30px;
-  padding: 5px 14px;
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.8);
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.anim-bar-label {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #94a3b8;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.intro-anim-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 600;
-  border-radius: 20px;
-  padding: 4px 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.intro-anim-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  border-color: rgba(255, 215, 0, 0.5);
-  transform: translateY(-1px);
-}
-
-.intro-anim-btn.active {
-  background: rgba(245, 158, 11, 0.25);
-  border-color: #f59e0b;
-  color: #fef08a;
-  font-weight: 700;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
-}
-
 .intro-orbit-hint {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.68rem;
-  color: #94a3b8;
-  letter-spacing: 0.3px;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  letter-spacing: 0.5px;
+  background: rgba(10, 15, 28, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 6px 18px;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 15px rgba(255, 255, 255, 0.04);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
 .intro-orbit-hint strong {
-  color: #fef08a;
+  color: #fde047;
+  font-weight: 700;
 }
 .intro-badge-pill {
   display: inline-flex;
